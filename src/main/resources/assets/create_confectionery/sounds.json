@@ -1,0 +1,43 @@
+{
+  "music_disc.the_bright_side": {
+    "sounds": [
+      {
+        "name": "create_confectionery:records/the_bright_side",
+        "stream": true
+      }
+    ]
+  },
+  "entity.gingerbread_man.eat": {
+    "subtitle": "subtitles.entity.gingerbread_man.eat",
+    "sounds": [
+      {
+        "name": "minecraft:entity.generic.eat",
+        "type": "event"
+      }
+    ]
+  },
+  "entity.gingerbread_man.ambient": {
+    "subtitle": "subtitles.entity.gingerbread_man.ambient",
+    "sounds": [
+      "create_confectionery:entity/gingerbread_man/ambient1",
+      "create_confectionery:entity/gingerbread_man/ambient2",
+      "create_confectionery:entity/gingerbread_man/ambient3"
+    ]
+  },
+  "entity.gingerbread_man.hurt": {
+    "subtitle": "subtitles.entity.gingerbread_man.hurt",
+    "sounds": [
+      "create_confectionery:entity/gingerbread_man/hurt1",
+      "create_confectionery:entity/gingerbread_man/hurt2",
+      "create_confectionery:entity/gingerbread_man/hurt3"
+    ]
+  },
+  "entity.gingerbread_man.death": {
+    "subtitle": "subtitles.entity.gingerbread_man.death",
+    "sounds": [
+      "create_confectionery:entity/gingerbread_man/death1",
+      "create_confectionery:entity/gingerbread_man/death2",
+      "create_confectionery:entity/gingerbread_man/death3"
+    ]
+  }
+}
