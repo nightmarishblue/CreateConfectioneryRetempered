@@ -9,9 +9,12 @@ import com.simibubi.create.AllFluids;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -44,8 +47,8 @@ public class GingerbreadManEntity extends TamableAnimal {
     public static final ItemStack CONSUME_ITEM = new ItemStack(CCItems.GINGERBREAD.get());
     // the particles that come out when you take a bite of this mob
     public static final ItemStack EATEN_PARTICLES = new ItemStack(CCItems.GINGERBREAD_MAN.get());
-    public static final Ingredient FOOD_ITEMS = Ingredient.of(Items.SUGAR, CCItems.GINGERDOUGH.get());
-    public static final Ingredient TAME_ITEMS = Ingredient.of(Items.COOKIE, Items.HONEY_BOTTLE, CCItems.CANDY_CANE.get());
+    public static final TagKey<Item> FOOD_ITEMS = ItemTags.create(new ResourceLocation(CreateConfectionery.MOD_ID, "gingerbread_man_foods"));
+    public static final TagKey<Item> TAME_ITEMS = ItemTags.create(new ResourceLocation(CreateConfectionery.MOD_ID, "gingerbread_man_tame_items"));
     public static final Set<FluidType> CAN_SWIM_IN = Set.of(AllFluids.CHOCOLATE.getType(), ForgeMod.MILK_TYPE.get(),
             CCFluidTypes.BLACK_CHOCOLATE_TYPE.get());
 
@@ -93,7 +96,7 @@ public class GingerbreadManEntity extends TamableAnimal {
         }
 
         // 3. this isn't tame and you can try to tame it
-        if (TAME_ITEMS.test(itemstack)) {
+        if (itemstack.is(TAME_ITEMS)) {
             if (!pPlayer.getAbilities().instabuild) itemstack.shrink(1);
 
             if (this.random.nextInt(8) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, pPlayer)) {
@@ -179,7 +182,7 @@ public class GingerbreadManEntity extends TamableAnimal {
 
     @Override
     public boolean isFood(ItemStack pStack) {
-        return FOOD_ITEMS.test(pStack);
+        return pStack.is(FOOD_ITEMS);
     }
 
     public boolean canEat(ItemStack stack) {
@@ -206,7 +209,7 @@ public class GingerbreadManEntity extends TamableAnimal {
         this.goalSelector.addGoal(5, new OwnerHurtTargetGoal(this));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(7, new FloatGoal(this));
-        this.goalSelector.addGoal(8, new TemptGoal(this, 1.2D, FOOD_ITEMS, false));
+        this.goalSelector.addGoal(8, new TemptGoal(this, 1.2D, Ingredient.of(FOOD_ITEMS), false));
     }
 
     public int getEatenState() {
