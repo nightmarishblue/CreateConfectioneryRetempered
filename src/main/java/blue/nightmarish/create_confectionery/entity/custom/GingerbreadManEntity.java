@@ -162,7 +162,7 @@ public class GingerbreadManEntity extends TamableAnimal {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.getEatenState() < 2 ? CCSounds.GINGERBREAD_MAN_AMBIENT.get() : null;
+        return this.getEatenState().ordinal() < 2 ? CCSounds.GINGERBREAD_MAN_AMBIENT.get() : null;
     }
 
     @Override
@@ -212,12 +212,22 @@ public class GingerbreadManEntity extends TamableAnimal {
         this.goalSelector.addGoal(8, new TemptGoal(this, 1.2D, Ingredient.of(FOOD_ITEMS), false));
     }
 
-    public int getEatenState() {
-        return 3 - Mth.lerpInt(this.getHealth() / this.getMaxHealth(), 0, 3);
+    public GingerbreadManDecay getEatenState() {
+        return GingerbreadManDecay.getDecay(this.getHealth() / this.getMaxHealth());
     }
 
-    public enum eatenAmount {
+    public enum GingerbreadManDecay {
         FULL, HEAD_CHIPPED, HEAD_MISSING, CHEST_CHIPPED;
+
+        public static GingerbreadManDecay getDecay(float percent) {
+            GingerbreadManDecay[] values = GingerbreadManDecay.values();
+            int index = values.length - Mth.lerpInt(percent, 0, values.length);
+            return values[index];
+        }
+
+        public String toString() {
+            return this.name().toLowerCase();
+        }
     }
 
     public static AttributeSupplier. Builder createAttributes() {
