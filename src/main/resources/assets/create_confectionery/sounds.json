@@ -7,12 +7,14 @@
       }
     ]
   },
-  "entity.gingerbread_man.eat": {
-    "subtitle": "subtitles.entity.gingerbread_man.eat",
+  "entity.gingerbread_man.repair": {
+    "subtitle": "subtitles.entity.gingerbread_man.repair",
     "sounds": [
       {
-        "name": "minecraft:entity.generic.eat",
-        "type": "event"
+        "name": "minecraft:block.wool.place",
+        "type": "event",
+        "pitch": 1.4,
+        "volume": 0.8
       }
     ]
   },

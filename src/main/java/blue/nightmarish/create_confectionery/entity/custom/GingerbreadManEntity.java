@@ -72,7 +72,7 @@ public class GingerbreadManEntity extends TamableAnimal {
         if (this.canEat(itemstack)) {
             FoodProperties foodProps = itemstack.getFoodProperties(this);
             this.heal(foodProps != null ? foodProps.getNutrition() : 0.5F); // since this thing can eat sugar, we want a fallback
-            this.level().playSound(null, this.blockPosition(), CCSounds.GINGERBREAD_MAN_EAT.get(), SoundSource.NEUTRAL, 0.5F, 1.5F);
+            this.level().playSound(null, this.blockPosition(), CCSounds.GINGERBREAD_MAN_REPAIR.get(), SoundSource.NEUTRAL, 0.5F, 1.5F);
 
             if (!pPlayer.getAbilities().instabuild) itemstack.shrink(1);
 
