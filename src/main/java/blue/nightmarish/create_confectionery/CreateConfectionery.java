@@ -2,6 +2,8 @@ package blue.nightmarish.create_confectionery;
 
 import blue.nightmarish.create_confectionery.registry.*;
 import com.mojang.logging.LogUtils;
+import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.tags.ItemTags;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;

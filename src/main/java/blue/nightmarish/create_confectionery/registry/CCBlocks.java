@@ -5,6 +5,7 @@ import blue.nightmarish.create_confectionery.block.Gingerbread;
 import blue.nightmarish.create_confectionery.block.SweetFluidBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -34,17 +35,30 @@ public class CCBlocks {
             .register("hot_chocolate", () -> new SweetFluidBlock(CCFluids.HOT_CHOCOLATE));
 
     public static final RegistryObject<Block> GINGERBREAD_BLOCK =
-            registerBlockAndItem("gingerbread_block", () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(1F)
-                    .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sound(SoundType.TUFF)
-                    .requiresCorrectToolForDrops()
-                    ));
+            registerBlockAndItem(
+                    "gingerbread_block",
+                    () -> new Block(
+                            BlockBehaviour.Properties.of()
+                                .strength(1F)
+                                .instrument(NoteBlockInstrument.BASEDRUM)
+                                .sound(SoundType.TUFF)
+                                .requiresCorrectToolForDrops()
+                    ),
+                    new Item.Properties().rarity(Rarity.UNCOMMON)
+            );
     public static final RegistryObject<SlabBlock> GINGERBREAD_SLAB =
-            registerBlockAndItem("gingerbread_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(GINGERBREAD_BLOCK.get())));
+            registerBlockAndItem("gingerbread_slab",
+                    () -> new SlabBlock(BlockBehaviour.Properties.copy(GINGERBREAD_BLOCK.get())),
+                    new Item.Properties().rarity(Rarity.UNCOMMON)
+            );
     public static final RegistryObject<StairBlock> GINGERBREAD_STAIR =
-            registerBlockAndItem("gingerbread_stairs", () -> new StairBlock(() -> GINGERBREAD_BLOCK.get().defaultBlockState(),
-                    BlockBehaviour.Properties.copy(GINGERBREAD_BLOCK.get())));
+            registerBlockAndItem("gingerbread_stairs",
+                    () -> new StairBlock(
+                            () -> GINGERBREAD_BLOCK.get().defaultBlockState(),
+                            BlockBehaviour.Properties.copy(GINGERBREAD_BLOCK.get())
+                    ),
+                    new Item.Properties().rarity(Rarity.UNCOMMON)
+            );
 
 //    public static final RegistryObject<Block> GINGERBREAD_BRICKS =
 //            registerBlockAndItem("gingerbread_bricks", () -> new Block(BlockBehaviour.Properties.copy(GINGERBREAD_BLOCK.get())));
@@ -69,12 +83,16 @@ public class CCBlocks {
 
 
     private static <T extends Block> RegistryObject<T> registerBlockAndItem(String name, Supplier<T> block) {
+       return registerBlockAndItem(name, block, new Item.Properties());
+    }
+
+    private static <T extends Block> RegistryObject<T> registerBlockAndItem(String name, Supplier<T> block, Item.Properties itemProps) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
-        registerBlockItem(name, toReturn);
+        registerBlockItem(name, toReturn, itemProps);
         return toReturn;
     }
 
-    private static <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block) {
-        return CCItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+    private static <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block, Item.Properties itemProps) {
+        return CCItems.ITEMS.register(name, () -> new BlockItem(block.get(), itemProps));
     }
 }

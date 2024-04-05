@@ -4,6 +4,7 @@ import blue.nightmarish.create_confectionery.item.ConfectionItem;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Rarity;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class GingerbreadItem extends ConfectionItem {
     }
 
     public GingerbreadItem(List<MobEffectInstance> effects) {
-        super(effects, ConfectionItem.defaultItemProps(), defaultFoodProps());
+        super(effects, ConfectionItem.defaultItemProps().rarity(Rarity.UNCOMMON), defaultFoodProps());
     }
 
     public static FoodProperties.Builder defaultFoodProps() {

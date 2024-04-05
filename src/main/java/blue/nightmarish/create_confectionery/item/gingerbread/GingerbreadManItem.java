@@ -5,6 +5,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class GingerbreadManItem extends ConfectionItem {
     }
 
     public static Item.Properties defaultItemProps() {
-        return ConfectionItem.defaultItemProps().stacksTo(16);
+        return ConfectionItem.defaultItemProps().stacksTo(16).rarity(Rarity.UNCOMMON);
     }
 
     public static FoodProperties.Builder defaultFoodProps() {

@@ -23,7 +23,7 @@ public class CCItems {
 
     // gingerbread
     public static final RegistryObject<Item> GINGERDOUGH = ITEMS
-            .register("gingerdough", CCUtils::genericItem);
+            .register("gingerdough", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> GINGERBREAD = ITEMS
             .register("gingerbread", () -> new GingerbreadItem(CCConstants.GINGERBREAD_EFFECTS));
     public static final RegistryObject<Item> GINGERBREAD_MAN = ITEMS
