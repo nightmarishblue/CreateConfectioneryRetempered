@@ -1,5 +1,5 @@
 {
-  "parent": "create_confectionery:block/white_chocolate_bricks_stairs",
+  "parent": "create_confectionery:block/chocolate_brick_stairs",
   "display": {
     "thirdperson": {
       "rotation": [

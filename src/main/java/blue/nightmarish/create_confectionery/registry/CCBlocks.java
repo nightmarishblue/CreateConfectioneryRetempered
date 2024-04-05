@@ -86,18 +86,18 @@ public class CCBlocks {
                     new Item.Properties().rarity(Rarity.UNCOMMON)
             );
 
-//    public static final RegistryObject<Block> CHOCOLATE_BRICKS =
-//            registerBlockAndItem("chocolate_bricks", () -> new Block(BlockBehaviour.Properties.of()
-//                    .strength(2F)
-//                    .instrument(NoteBlockInstrument.BASEDRUM)
-//                    .friction(0.8F)
-//                    .requiresCorrectToolForDrops()
-//            ));
-//    public static final RegistryObject<SlabBlock> CHOCOLATE_BRICK_SLAB =
-//            registerBlockAndItem("chocolate_brick_stairs", () -> new SlabBlock(BlockBehaviour.Properties.copy(CHOCOLATE_BRICKS.get())));
-//    public static final RegistryObject<StairBlock> CHOCOLATE_BRICK_STAIRS =
-//            registerBlockAndItem("chocolate_brick_stairs", () -> new StairBlock(() -> CHOCOLATE_BRICKS.get().defaultBlockState(),
-//                    BlockBehaviour.Properties.copy(CHOCOLATE_BRICKS.get())));
+    public static final RegistryObject<Block> CHOCOLATE_BRICKS =
+            registerBlockAndItem("chocolate_bricks", () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(2F)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .friction(0.8F)
+                    .requiresCorrectToolForDrops()
+            ));
+    public static final RegistryObject<SlabBlock> CHOCOLATE_BRICK_SLAB =
+            registerBlockAndItem("chocolate_brick_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(CHOCOLATE_BRICKS.get())));
+    public static final RegistryObject<StairBlock> CHOCOLATE_BRICK_STAIRS =
+            registerBlockAndItem("chocolate_brick_stairs", () -> new StairBlock(() -> CHOCOLATE_BRICKS.get().defaultBlockState(),
+                    BlockBehaviour.Properties.copy(CHOCOLATE_BRICKS.get())));
 
 
     private static <T extends Block> RegistryObject<T> registerBlockAndItem(String name, Supplier<T> block) {
