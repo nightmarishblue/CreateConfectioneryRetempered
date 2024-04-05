@@ -47,6 +47,7 @@ public class CCBlocks {
                     new Item.Properties().rarity(Rarity.UNCOMMON)
             );
 
+    // gingerbread
     public static final RegistryObject<StairBlock> GINGERBREAD_STAIR =
             registerBlockAndItem("gingerbread_stairs",
                     () -> new StairBlock(
@@ -86,11 +87,14 @@ public class CCBlocks {
                     new Item.Properties().rarity(Rarity.UNCOMMON)
             );
 
+    // chocolate
     public static final RegistryObject<Block> CHOCOLATE_BRICKS =
             registerBlockAndItem("chocolate_bricks", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(2F)
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .friction(0.8F)
+                    .sound(SoundType.MUD)
+                    .friction(0.99F)
+                    .speedFactor(0.99F)
                     .requiresCorrectToolForDrops()
             ));
     public static final RegistryObject<SlabBlock> CHOCOLATE_BRICK_SLAB =
