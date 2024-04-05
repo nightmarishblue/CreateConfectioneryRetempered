@@ -20,8 +20,8 @@ public class CCBlocks {
             .create(ForgeRegistries.BLOCKS, CreateConfectionery.MOD_ID);
 
     // liquid blocks for chocolate
-    public static final RegistryObject<LiquidBlock> BLACK_CHOCOLATE = BLOCKS
-            .register("black_chocolate", () -> new SweetFluidBlock(CCFluids.BLACK_CHOCOLATE));
+    public static final RegistryObject<LiquidBlock> DARK_CHOCOLATE = BLOCKS
+            .register("dark_chocolate", () -> new SweetFluidBlock(CCFluids.DARK_CHOCOLATE));
     public static final RegistryObject<LiquidBlock> RUBY_CHOCOLATE = BLOCKS
             .register("ruby_chocolate", () -> new SweetFluidBlock(CCFluids.RUBY_CHOCOLATE));
     public static final RegistryObject<LiquidBlock> WHITE_CHOCOLATE = BLOCKS

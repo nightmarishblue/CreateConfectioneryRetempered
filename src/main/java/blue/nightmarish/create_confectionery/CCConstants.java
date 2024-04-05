@@ -11,7 +11,7 @@ import java.util.List;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class CCConstants {
-    public static final int BLACK_CHOC_COLOR = 0x3F1916;
+    public static final int DARK_CHOC_COLOR = 0x3F1916;
     public static final int RUBY_CHOC_COLOR = 0xA14D82;
     public static final int WHITE_CHOC_COLOR = 0xB07C4F;
     public static final int CARAMEL_COLOR = 0xad5626;
@@ -23,7 +23,7 @@ public class CCConstants {
     public static final int RESISTANCE_DURATION = 20 * 15;
     public static final int HASTE_DURATION = 20 * 60;
 
-    public static final List<MobEffectInstance> BLACK_CHOC_EFFECTS = List.of(new MobEffectInstance(CCEffects.STIMULATION.get(), STIMULATION_DURATION));
+    public static final List<MobEffectInstance> DARK_CHOC_EFFECTS = List.of(new MobEffectInstance(CCEffects.STIMULATION.get(), STIMULATION_DURATION));
     public static final List<MobEffectInstance> RUBY_CHOC_EFFECTS = List.of(new MobEffectInstance(MobEffects.HEALTH_BOOST, HEALTH_DURATION));
     public static final List<MobEffectInstance> WHITE_CHOC_EFFECTS = List.of(new MobEffectInstance(CCEffects.REST.get(), REST_DURATION));
     public static final List<MobEffectInstance> CARAMEL_EFFECTS = List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, SPEED_DURATION));

@@ -17,7 +17,7 @@ public class CCFluidTypes {
     public static DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister
             .create(ForgeRegistries.Keys.FLUID_TYPES, CreateConfectionery.MOD_ID);
 
-    public static RegistryObject<FluidType> BLACK_CHOCOLATE_TYPE = registerChocolate("black_chocolate", CCConstants.BLACK_CHOC_COLOR);
+    public static RegistryObject<FluidType> DARK_CHOCOLATE_TYPE = registerChocolate("dark_chocolate", CCConstants.DARK_CHOC_COLOR);
     public static RegistryObject<FluidType> RUBY_CHOCOLATE_TYPE = registerChocolate("ruby_chocolate", CCConstants.RUBY_CHOC_COLOR);//C35D9D);
     public static RegistryObject<FluidType> WHITE_CHOCOLATE_TYPE = registerChocolate("white_chocolate", CCConstants.WHITE_CHOC_COLOR);//D0945E);
 

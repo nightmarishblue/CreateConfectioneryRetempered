@@ -19,14 +19,14 @@ public class CCFluids {
             .create(ForgeRegistries.FLUIDS, CreateConfectionery.MOD_ID);
 
     // the special chocolates
-    public static final RegistryObject<FlowingFluid> BLACK_CHOCOLATE = FLUIDS
-            .register("black_chocolate", () -> new ForgeFlowingFluid.Source(CCFluids.BLACK_CHOCOLATE_PROPERTIES));
-    public static final RegistryObject<FlowingFluid> FLOWING_BLACK_CHOCOLATE = FLUIDS
-            .register("flowing_black_chocolate", () -> new ForgeFlowingFluid.Flowing(CCFluids.BLACK_CHOCOLATE_PROPERTIES));
+    public static final RegistryObject<FlowingFluid> DARK_CHOCOLATE = FLUIDS
+            .register("dark_chocolate", () -> new ForgeFlowingFluid.Source(CCFluids.DARK_CHOCOLATE_PROPERTIES));
+    public static final RegistryObject<FlowingFluid> FLOWING_DARK_CHOCOLATE = FLUIDS
+            .register("flowing_dark_chocolate", () -> new ForgeFlowingFluid.Flowing(CCFluids.DARK_CHOCOLATE_PROPERTIES));
 
-    public static final ForgeFlowingFluid.Properties BLACK_CHOCOLATE_PROPERTIES =
-            flowingFluidProps(CCFluidTypes.BLACK_CHOCOLATE_TYPE, CCFluids.BLACK_CHOCOLATE,
-                    CCFluids.FLOWING_BLACK_CHOCOLATE, CCBlocks.BLACK_CHOCOLATE, CCItems.BLACK_CHOCOLATE_BUCKET);
+    public static final ForgeFlowingFluid.Properties DARK_CHOCOLATE_PROPERTIES =
+            flowingFluidProps(CCFluidTypes.DARK_CHOCOLATE_TYPE, CCFluids.DARK_CHOCOLATE,
+                    CCFluids.FLOWING_DARK_CHOCOLATE, CCBlocks.DARK_CHOCOLATE, CCItems.DARK_CHOCOLATE_BUCKET);
 
 
     public static final RegistryObject<FlowingFluid> RUBY_CHOCOLATE = FLUIDS

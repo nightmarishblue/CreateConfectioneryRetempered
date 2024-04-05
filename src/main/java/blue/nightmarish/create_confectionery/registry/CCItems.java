@@ -41,8 +41,8 @@ public class CCItems {
             .register("cocoa_butter", CCUtils::genericItem);
 
     // other chocolate bars
-    public static final RegistryObject<Item> BAR_OF_BLACK_CHOCOLATE = ITEMS
-            .register("bar_of_black_chocolate", () -> new ChocolateBarItem(CCConstants.BLACK_CHOC_EFFECTS));
+    public static final RegistryObject<Item> BAR_OF_DARK_CHOCOLATE = ITEMS
+            .register("bar_of_dark_chocolate", () -> new ChocolateBarItem(CCConstants.DARK_CHOC_EFFECTS));
     public static final RegistryObject<Item> BAR_OF_RUBY_CHOCOLATE = ITEMS
             .register("bar_of_ruby_chocolate", () -> new ChocolateBarItem(CCConstants.RUBY_CHOC_EFFECTS));
     public static final RegistryObject<Item> BAR_OF_WHITE_CHOCOLATE = ITEMS
@@ -54,16 +54,16 @@ public class CCItems {
     // full chocolate bars
     public static final RegistryObject<Item> FULL_CHOCOLATE_BAR = ITEMS
             .register("full_chocolate_bar", () -> new FullChocolateBarItem(List.of()));
-    public static final RegistryObject<Item> FULL_BLACK_CHOCOLATE_BAR = ITEMS
-            .register("full_black_chocolate_bar", () -> new FullChocolateBarItem(CCConstants.BLACK_CHOC_EFFECTS));
+    public static final RegistryObject<Item> FULL_DARK_CHOCOLATE_BAR = ITEMS
+            .register("full_dark_chocolate_bar", () -> new FullChocolateBarItem(CCConstants.DARK_CHOC_EFFECTS));
     public static final RegistryObject<Item> FULL_RUBY_CHOCOLATE_BAR = ITEMS
             .register("full_ruby_chocolate_bar", () -> new FullChocolateBarItem(CCConstants.RUBY_CHOC_EFFECTS));
     public static final RegistryObject<Item> FULL_WHITE_CHOCOLATE_BAR = ITEMS
             .register("full_white_chocolate_bar", () -> new FullChocolateBarItem(CCConstants.WHITE_CHOC_EFFECTS));
 
     // glazed berries
-    public static final RegistryObject<Item> BLACK_CHOCOLATE_GLAZED_BERRIES = ITEMS
-            .register("black_chocolate_glazed_berries", () -> new ChocolateGlazedBerriesItem(CCConstants.BLACK_CHOC_EFFECTS));
+    public static final RegistryObject<Item> DARK_CHOCOLATE_GLAZED_BERRIES = ITEMS
+            .register("dark_chocolate_glazed_berries", () -> new ChocolateGlazedBerriesItem(CCConstants.DARK_CHOC_EFFECTS));
     public static final RegistryObject<Item> CARAMEL_GLAZED_BERRIES = ITEMS
             .register("caramel_glazed_berries", () -> new ChocolateGlazedBerriesItem(CCConstants.CARAMEL_EFFECTS));
     public static final RegistryObject<Item> RUBY_CHOCOLATE_GLAZED_BERRIES = ITEMS
@@ -83,8 +83,8 @@ public class CCItems {
     // the glazed ones
     public static final RegistryObject<Item> CHOCOLATE_GLAZED_MARSHMALLOW = ITEMS
             .register("chocolate_glazed_marshmallow", () -> new ChocolateGlazedMarshmallowItem(List.of()));
-    public static final RegistryObject<Item> BLACK_CHOCOLATE_GLAZED_MARSHMALLOW = ITEMS
-            .register("black_chocolate_glazed_marshmallow", () -> new ChocolateGlazedMarshmallowItem(CCConstants.BLACK_CHOC_EFFECTS));
+    public static final RegistryObject<Item> DARK_CHOCOLATE_GLAZED_MARSHMALLOW = ITEMS
+            .register("dark_chocolate_glazed_marshmallow", () -> new ChocolateGlazedMarshmallowItem(CCConstants.DARK_CHOC_EFFECTS));
     public static final RegistryObject<Item> RUBY_CHOCOLATE_GLAZED_MARSHMALLOW = ITEMS
             .register("ruby_chocolate_glazed_marshmallow", () -> new ChocolateGlazedMarshmallowItem(CCConstants.RUBY_CHOC_EFFECTS));
     public static final RegistryObject<Item> WHITE_CHOCOLATE_GLAZED_MARSHMALLOW = ITEMS
@@ -105,29 +105,29 @@ public class CCItems {
             register("chocolate_coated_caramel_candy", () -> new ChocolateCandyItem(CCConstants.CARAMEL_EFFECTS));
     public static final RegistryObject<Item> CHOCOLATE_COATED_WHITE_CANDY = ITEMS.
             register("chocolate_coated_white_candy", () -> new ChocolateCandyItem(CCConstants.WHITE_CHOC_EFFECTS));
-    public static final RegistryObject<Item> CHOCOLATE_COATED_BLACK_CANDY = ITEMS.
-            register("chocolate_coated_black_candy", () -> new ChocolateCandyItem(CCConstants.BLACK_CHOC_EFFECTS));
+    public static final RegistryObject<Item> CHOCOLATE_COATED_DARK_CANDY = ITEMS.
+            register("chocolate_coated_dark_candy", () -> new ChocolateCandyItem(CCConstants.DARK_CHOC_EFFECTS));
     public static final RegistryObject<Item> CHOCOLATE_COATED_RUBY_CANDY = ITEMS.
             register("chocolate_coated_ruby_candy", () -> new ChocolateCandyItem(CCConstants.RUBY_CHOC_EFFECTS));
     // stuff coated in dark chocolate
-    public static final RegistryObject<Item> BLACK_COATED_CARAMEL_CANDY = ITEMS.
-            register("black_coated_caramel_candy", () -> new ChocolateCandyItem(
-                    CCUtils.combineEffects(CCConstants.BLACK_CHOC_EFFECTS, CCConstants.CARAMEL_EFFECTS)));
-    public static final RegistryObject<Item> BLACK_COATED_WHITE_CANDY = ITEMS.
-            register("black_coated_white_candy", () -> new ChocolateCandyItem(
-                    CCUtils.combineEffects(CCConstants.BLACK_CHOC_EFFECTS, CCConstants.WHITE_CHOC_EFFECTS)));
-    public static final RegistryObject<Item> BLACK_COATED_CHOCOLATE_CANDY = ITEMS.
-            register("black_coated_chocolate_candy", () -> new ChocolateCandyItem(CCConstants.BLACK_CHOC_EFFECTS));
-    public static final RegistryObject<Item> BLACK_COATED_RUBY_CANDY = ITEMS.
-            register("black_coated_ruby_candy", () -> new ChocolateCandyItem(
-                    CCUtils.combineEffects(CCConstants.BLACK_CHOC_EFFECTS, CCConstants.RUBY_CHOC_EFFECTS)));
+    public static final RegistryObject<Item> DARK_COATED_CARAMEL_CANDY = ITEMS.
+            register("dark_coated_caramel_candy", () -> new ChocolateCandyItem(
+                    CCUtils.combineEffects(CCConstants.DARK_CHOC_EFFECTS, CCConstants.CARAMEL_EFFECTS)));
+    public static final RegistryObject<Item> DARK_COATED_WHITE_CANDY = ITEMS.
+            register("dark_coated_white_candy", () -> new ChocolateCandyItem(
+                    CCUtils.combineEffects(CCConstants.DARK_CHOC_EFFECTS, CCConstants.WHITE_CHOC_EFFECTS)));
+    public static final RegistryObject<Item> DARK_COATED_CHOCOLATE_CANDY = ITEMS.
+            register("dark_coated_chocolate_candy", () -> new ChocolateCandyItem(CCConstants.DARK_CHOC_EFFECTS));
+    public static final RegistryObject<Item> DARK_COATED_RUBY_CANDY = ITEMS.
+            register("dark_coated_ruby_candy", () -> new ChocolateCandyItem(
+                    CCUtils.combineEffects(CCConstants.DARK_CHOC_EFFECTS, CCConstants.RUBY_CHOC_EFFECTS)));
     // stuff coated in white chocolate
     public static final RegistryObject<Item> WHITE_COATED_CARAMEL_CANDY = ITEMS.
             register("white_coated_caramel_candy", () -> new ChocolateCandyItem(
                     CCUtils.combineEffects(CCConstants.WHITE_CHOC_EFFECTS, CCConstants.CARAMEL_EFFECTS)));
-    public static final RegistryObject<Item> WHITE_COATED_BLACK_CANDY = ITEMS.
-            register("white_coated_black_candy", () -> new ChocolateCandyItem(
-                    CCUtils.combineEffects(CCConstants.WHITE_CHOC_EFFECTS, CCConstants.BLACK_CHOC_EFFECTS)));
+    public static final RegistryObject<Item> WHITE_COATED_DARK_CANDY = ITEMS.
+            register("white_coated_dark_candy", () -> new ChocolateCandyItem(
+                    CCUtils.combineEffects(CCConstants.WHITE_CHOC_EFFECTS, CCConstants.DARK_CHOC_EFFECTS)));
     public static final RegistryObject<Item> WHITE_COATED_CHOCOLATE_CANDY = ITEMS.
             register("white_coated_chocolate_candy", () -> new ChocolateCandyItem(CCConstants.WHITE_CHOC_EFFECTS));
     public static final RegistryObject<Item> WHITE_COATED_RUBY_CANDY = ITEMS.
@@ -137,9 +137,9 @@ public class CCItems {
     public static final RegistryObject<Item> RUBY_COATED_CARAMEL_CANDY = ITEMS.
             register("ruby_coated_caramel_candy", () -> new ChocolateCandyItem(
                     CCUtils.combineEffects(CCConstants.RUBY_CHOC_EFFECTS, CCConstants.CARAMEL_EFFECTS)));
-    public static final RegistryObject<Item> RUBY_COATED_BLACK_CANDY = ITEMS.
-            register("ruby_coated_black_candy", () -> new ChocolateCandyItem(
-                    CCUtils.combineEffects(CCConstants.RUBY_CHOC_EFFECTS, CCConstants.BLACK_CHOC_EFFECTS)));
+    public static final RegistryObject<Item> RUBY_COATED_DARK_CANDY = ITEMS.
+            register("ruby_coated_dark_candy", () -> new ChocolateCandyItem(
+                    CCUtils.combineEffects(CCConstants.RUBY_CHOC_EFFECTS, CCConstants.DARK_CHOC_EFFECTS)));
     public static final RegistryObject<Item> RUBY_COATED_CHOCOLATE_CANDY = ITEMS.
             register("ruby_coated_chocolate_candy", () -> new ChocolateCandyItem(CCConstants.RUBY_CHOC_EFFECTS));
     public static final RegistryObject<Item> RUBY_COATED_WHITE_CANDY = ITEMS.
@@ -147,8 +147,8 @@ public class CCItems {
                     CCUtils.combineEffects(CCConstants.RUBY_CHOC_EFFECTS, CCConstants.WHITE_CHOC_EFFECTS)));
 
     // chocolate and caramel buckets
-    public static final RegistryObject<BucketItem> BLACK_CHOCOLATE_BUCKET = ITEMS
-            .register("black_chocolate_bucket", () -> new BucketItem(CCFluids.BLACK_CHOCOLATE, bucketProps()));
+    public static final RegistryObject<BucketItem> DARK_CHOCOLATE_BUCKET = ITEMS
+            .register("dark_chocolate_bucket", () -> new BucketItem(CCFluids.DARK_CHOCOLATE, bucketProps()));
     public static final RegistryObject<BucketItem> RUBY_CHOCOLATE_BUCKET = ITEMS
             .register("ruby_chocolate_bucket", () -> new BucketItem(CCFluids.RUBY_CHOCOLATE, bucketProps()));
     public static final RegistryObject<BucketItem> WHITE_CHOCOLATE_BUCKET = ITEMS

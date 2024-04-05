@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "create_confectionery:items/black_chocolate_glazed_berries"
+    "layer0": "create_confectionery:item/dark_chocolate_glazed_berries"
   }
 }

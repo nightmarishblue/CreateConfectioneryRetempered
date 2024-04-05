@@ -2,11 +2,11 @@
   "sources": [
     {
       "type": "single",
-      "resource": "create_confectionery:fluid/black_chocolate_flow"
+      "resource": "create_confectionery:fluid/dark_chocolate_flow"
     },
     {
       "type": "single",
-      "resource": "create_confectionery:fluid/black_chocolate_still"
+      "resource": "create_confectionery:fluid/dark_chocolate_still"
     },
     {
       "type": "single",
