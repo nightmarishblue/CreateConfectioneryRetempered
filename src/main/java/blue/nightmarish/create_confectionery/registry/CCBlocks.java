@@ -103,6 +103,29 @@ public class CCBlocks {
             registerBlockAndItem("chocolate_brick_stairs", () -> new StairBlock(() -> CHOCOLATE_BRICKS.get().defaultBlockState(),
                     BlockBehaviour.Properties.copy(CHOCOLATE_BRICKS.get())));
 
+    public static final RegistryObject<Block> DARK_CHOCOLATE_BRICKS =
+            registerBlockAndItem("dark_chocolate_bricks", () -> new Block(BlockBehaviour.Properties.copy(CHOCOLATE_BRICKS.get())));
+    public static final RegistryObject<SlabBlock> DARK_CHOCOLATE_BRICK_SLAB =
+            registerBlockAndItem("dark_chocolate_brick_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(DARK_CHOCOLATE_BRICKS.get())));
+    public static final RegistryObject<StairBlock> DARK_CHOCOLATE_BRICK_STAIRS =
+            registerBlockAndItem("dark_chocolate_brick_stairs", () -> new StairBlock(() -> DARK_CHOCOLATE_BRICKS.get().defaultBlockState(),
+                    BlockBehaviour.Properties.copy(DARK_CHOCOLATE_BRICKS.get())));
+
+    public static final RegistryObject<Block> WHITE_CHOCOLATE_BRICKS =
+            registerBlockAndItem("white_chocolate_bricks", () -> new Block(BlockBehaviour.Properties.copy(CHOCOLATE_BRICKS.get())));
+    public static final RegistryObject<SlabBlock> WHITE_CHOCOLATE_BRICK_SLAB =
+            registerBlockAndItem("white_chocolate_brick_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(WHITE_CHOCOLATE_BRICKS.get())));
+    public static final RegistryObject<StairBlock> WHITE_CHOCOLATE_BRICK_STAIRS =
+            registerBlockAndItem("white_chocolate_brick_stairs", () -> new StairBlock(() -> WHITE_CHOCOLATE_BRICKS.get().defaultBlockState(),
+                    BlockBehaviour.Properties.copy(WHITE_CHOCOLATE_BRICKS.get())));
+
+    public static final RegistryObject<Block> RUBY_CHOCOLATE_BRICKS =
+            registerBlockAndItem("ruby_chocolate_bricks", () -> new Block(BlockBehaviour.Properties.copy(CHOCOLATE_BRICKS.get())));
+    public static final RegistryObject<SlabBlock> RUBY_CHOCOLATE_BRICK_SLAB =
+            registerBlockAndItem("ruby_chocolate_brick_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(RUBY_CHOCOLATE_BRICKS.get())));
+    public static final RegistryObject<StairBlock> RUBY_CHOCOLATE_BRICK_STAIRS =
+            registerBlockAndItem("ruby_chocolate_brick_stairs", () -> new StairBlock(() -> RUBY_CHOCOLATE_BRICKS.get().defaultBlockState(),
+                    BlockBehaviour.Properties.copy(RUBY_CHOCOLATE_BRICKS.get())));
 
     private static <T extends Block> RegistryObject<T> registerBlockAndItem(String name, Supplier<T> block) {
        return registerBlockAndItem(name, block, new Item.Properties());
