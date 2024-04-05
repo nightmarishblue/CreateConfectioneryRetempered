@@ -1,5 +1,5 @@
 {
-  "parent": "create_confectionery:block/gingerbreak_bricks",
+  "parent": "create_confectionery:block/gingerbread_bricks",
   "display": {
     "thirdperson": {
       "rotation": [

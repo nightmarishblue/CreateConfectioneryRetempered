@@ -60,14 +60,30 @@ public class CCBlocks {
                     new Item.Properties().rarity(Rarity.UNCOMMON)
             );
 
-//    public static final RegistryObject<Block> GINGERBREAD_BRICKS =
-//            registerBlockAndItem("gingerbread_bricks", () -> new Block(BlockBehaviour.Properties.copy(GINGERBREAD_BLOCK.get())));
-//    public static final RegistryObject<SlabBlock> GINGERBREAD_BRICK_SLAB =
-//            registerBlockAndItem("gingerbread_brick_stairs", () -> new SlabBlock(BlockBehaviour.Properties.copy(GINGERBREAD_BRICKS.get())));
-//    public static final RegistryObject<StairBlock> GINGERBREAD_BRICK_STAIRS =
-//            registerBlockAndItem("gingerbread_brick_stairs", () -> new StairBlock(() -> GINGERBREAD_BRICKS.get().defaultBlockState(),
-//                    BlockBehaviour.Properties.copy(GINGERBREAD_BRICKS.get())));
-//
+    public static final RegistryObject<Block> GINGERBREAD_BRICKS =
+            registerBlockAndItem(
+                    "gingerbread_bricks",
+                    () -> new Block(BlockBehaviour.Properties.copy(GINGERBREAD_BLOCK.get())),
+                    new Item.Properties().rarity(Rarity.UNCOMMON)
+            );
+
+    public static final RegistryObject<SlabBlock> GINGERBREAD_BRICK_SLAB =
+            registerBlockAndItem(
+                    "gingerbread_brick_slab",
+                    () -> new SlabBlock(BlockBehaviour.Properties.copy(GINGERBREAD_BRICKS.get())),
+                    new Item.Properties().rarity(Rarity.UNCOMMON)
+            );
+
+    public static final RegistryObject<StairBlock> GINGERBREAD_BRICK_STAIRS =
+            registerBlockAndItem(
+                    "gingerbread_brick_stairs",
+                    () -> new StairBlock(
+                            () -> GINGERBREAD_BRICKS.get().defaultBlockState(),
+                        BlockBehaviour.Properties.copy(GINGERBREAD_BRICKS.get())
+                    ),
+                    new Item.Properties().rarity(Rarity.UNCOMMON)
+            );
+
 //    public static final RegistryObject<Block> CHOCOLATE_BRICKS =
 //            registerBlockAndItem("chocolate_bricks", () -> new Block(BlockBehaviour.Properties.of()
 //                    .strength(2F)
