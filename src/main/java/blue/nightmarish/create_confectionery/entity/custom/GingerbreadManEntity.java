@@ -30,11 +30,17 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CarvedPumpkinBlock;
+import net.minecraft.world.level.block.state.predicate.BlockPredicate;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidType;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -197,6 +203,11 @@ public class GingerbreadManEntity extends TamableAnimal {
     @Override
     public boolean canFallInLove() {
         return false;
+    }
+
+    @Override
+    public Vec3 getLeashOffset(float pPartialTick) {
+        return new Vec3(0, 0.6 * this.getEyeHeight(), this.getBbWidth() * 0.2);
     }
 
     @Override
