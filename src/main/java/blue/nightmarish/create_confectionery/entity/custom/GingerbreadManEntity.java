@@ -30,17 +30,11 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CarvedPumpkinBlock;
-import net.minecraft.world.level.block.state.predicate.BlockPredicate;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidType;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -228,11 +222,11 @@ public class GingerbreadManEntity extends TamableAnimal {
     }
 
     public enum GingerbreadManDecay {
-        FULL, HEAD_CHIPPED, HEAD_MISSING, CHEST_CHIPPED;
+        FULL, HEAD_CHIPPED, HEAD_MISSING, BODY_CHIPPED;
 
         public static GingerbreadManDecay getDecay(float percent) {
             GingerbreadManDecay[] values = GingerbreadManDecay.values();
-            int index = values.length - Mth.lerpInt(percent, 0, values.length);
+            int index = values.length - (Mth.lerpInt(percent, 1, values.length));
             return values[index];
         }
 
