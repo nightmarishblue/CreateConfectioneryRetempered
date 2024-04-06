@@ -1,0 +1,7 @@
+.*
+!.gitignore
+
+build/
+run/
+
+src/test/
