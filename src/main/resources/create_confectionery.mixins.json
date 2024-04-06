@@ -2,8 +2,9 @@
   "required": true,
   "package": "blue.nightmarish.create_confectionery.mixin",
   "compatibilityLevel": "JAVA_17",
-  "minVersion": "0.8.0",
+  "minVersion": "0.8.5",
   "mixins": [
+    "PumpkinGingerbreadSummon"
   ],
   "injectors": {
     "defaultRequire": 1
