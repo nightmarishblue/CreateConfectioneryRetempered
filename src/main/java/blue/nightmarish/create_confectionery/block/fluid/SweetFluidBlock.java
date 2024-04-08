@@ -1,4 +1,4 @@
-package blue.nightmarish.create_confectionery.block;
+package blue.nightmarish.create_confectionery.block.fluid;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;

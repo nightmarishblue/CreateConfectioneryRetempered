@@ -1,7 +1,7 @@
 package blue.nightmarish.create_confectionery.registry;
 
 import blue.nightmarish.create_confectionery.CreateConfectionery;
-import blue.nightmarish.create_confectionery.block.SweetFluidBlock;
+import blue.nightmarish.create_confectionery.block.fluid.SweetFluidBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
