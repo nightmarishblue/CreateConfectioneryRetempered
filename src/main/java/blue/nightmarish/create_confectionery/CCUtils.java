@@ -48,26 +48,6 @@ public class CCUtils {
         return output.multiply(bound, bound, bound);
     }
 
-    public static <T> TagKey<T> createTagKey(IForgeRegistry<T> registry, String tagName) {
-        ResourceLocation loc = new ResourceLocation("forge", tagName);
-        return registry.tags().createOptionalTagKey(loc, Collections.emptySet());
-    }
-
-    public static final TagKey<FluidType> choc = createTagKey(ForgeRegistries.FLUID_TYPES.get(), "chocolate");
-
-    public static boolean queryFluidType(FluidType fluidType, Set<TagKey<FluidType>> targetTags) {
-        IReverseTag<FluidType> tagsOfFluid = getTags(fluidType);
-        if (tagsOfFluid == null) return false;
-        if (tagsOfFluid.containsTag(choc)) return true;
-        return false;
-    }
-
-    @Nullable
-    public static IReverseTag<FluidType> getTags(FluidType fluidType) {
-        IForgeRegistry<FluidType> fluidTypeReg = ForgeRegistries.FLUID_TYPES.get();
-        return fluidTypeReg.tags().getReverseTag(fluidType).orElse(null);
-    }
-
     public static final float baseWaterFogDistance = 96F;
     public static float getChocolateFogMult() {
         if (AllConfigs.client().specification == null) return 1F;

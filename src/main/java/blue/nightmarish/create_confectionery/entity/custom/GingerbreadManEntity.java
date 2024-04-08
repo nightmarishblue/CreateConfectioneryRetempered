@@ -49,8 +49,8 @@ public class GingerbreadManEntity extends TamableAnimal {
     public static final ItemStack EATEN_PARTICLES = new ItemStack(CCItems.GINGERBREAD_MAN.get());
     public static final TagKey<Item> FOOD_ITEMS = ItemTags.create(new ResourceLocation(CreateConfectionery.MOD_ID, "gingerbread_man_foods"));
     public static final TagKey<Item> TAME_ITEMS = ItemTags.create(new ResourceLocation(CreateConfectionery.MOD_ID, "gingerbread_man_tame_items"));
-    public static final Set<FluidType> CAN_SWIM_IN = Set.of(AllFluids.CHOCOLATE.getType(), ForgeMod.MILK_TYPE.get(),
-            CCFluidTypes.DARK_CHOCOLATE_TYPE.get());
+//    public static final Set<FluidType> CAN_SWIM_IN = Set.of(AllFluids.CHOCOLATE.getType(), ForgeMod.MILK_TYPE.get(),
+//            CCFluidTypes.DARK_CHOCOLATE_TYPE.get());
 
     public GingerbreadManEntity(EntityType<GingerbreadManEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -147,12 +147,11 @@ public class GingerbreadManEntity extends TamableAnimal {
         return super.hurt(pSource, pAmount);
     }
 
-    // gingerbread men can only swim in chocolate and milk
+    // gingerbread men can't swim in water
     @Override
     public void jumpInFluid(FluidType type) {
-        if (CAN_SWIM_IN.contains(type)) {
+        if (type != ForgeMod.WATER_TYPE.get())
             super.jumpInFluid(type);
-        }
     }
 
     @Override
