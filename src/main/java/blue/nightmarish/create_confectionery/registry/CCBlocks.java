@@ -126,6 +126,15 @@ public class CCBlocks {
             registerBlockAndItem("ruby_chocolate_brick_stairs", () -> new StairBlock(() -> RUBY_CHOCOLATE_BRICKS.get().defaultBlockState(),
                     BlockBehaviour.Properties.copy(RUBY_CHOCOLATE_BRICKS.get())));
 
+    public static final RegistryObject<RotatedPillarBlock> CANDY_CANE =
+            registerBlockAndItem("candy_cane_block", () -> new RotatedPillarBlock(
+                    BlockBehaviour.Properties.of()
+                            .instrument(NoteBlockInstrument.BASEDRUM)
+                            .sound(SoundType.CALCITE)
+                            .strength(1, 2)
+                            .requiresCorrectToolForDrops()
+            ));
+
     private static <T extends Block> RegistryObject<T> registerBlockAndItem(String name, Supplier<T> block) {
        return registerBlockAndItem(name, block, new Item.Properties());
     }
