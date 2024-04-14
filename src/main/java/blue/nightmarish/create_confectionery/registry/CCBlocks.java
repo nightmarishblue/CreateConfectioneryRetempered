@@ -47,7 +47,7 @@ public class CCBlocks {
             );
 
     // gingerbread
-    public static final RegistryObject<StairBlock> GINGERBREAD_STAIR =
+    public static final RegistryObject<StairBlock> GINGERBREAD_STAIRS =
             registerBlockAndItem("gingerbread_stairs",
                     () -> new StairBlock(
                             () -> GINGERBREAD_BLOCK.get().defaultBlockState(),
@@ -126,7 +126,7 @@ public class CCBlocks {
             registerBlockAndItem("ruby_chocolate_brick_stairs", () -> new StairBlock(() -> RUBY_CHOCOLATE_BRICKS.get().defaultBlockState(),
                     BlockBehaviour.Properties.copy(RUBY_CHOCOLATE_BRICKS.get())));
 
-    public static final RegistryObject<RotatedPillarBlock> CANDY_CANE =
+    public static final RegistryObject<RotatedPillarBlock> CANDY_CANE_BLOCK =
             registerBlockAndItem("candy_cane_block", () -> new RotatedPillarBlock(
                     BlockBehaviour.Properties.of()
                             .instrument(NoteBlockInstrument.BASEDRUM)
