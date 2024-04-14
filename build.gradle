@@ -172,11 +172,11 @@ jar {
     manifest {
         attributes([
                 "Specification-Title"     : mod_id,
-                "Specification-Vendor"    : author,
+                "Specification-Vendor"    : mod_authors,
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
-                "Implementation-Vendor"   : author,
+                "Implementation-Vendor"   : mod_authors,
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
@@ -203,4 +203,24 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            mc_version             : mc_version,
+            mc_version_range       : mc_version_range,
+            forge_version          : forge_version,
+            forge_version_range    : forge_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml']) {
+        expand replaceProperties
+    }
 }
