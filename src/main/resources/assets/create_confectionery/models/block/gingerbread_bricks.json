@@ -1,8 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "create_confectionery:block/gingerbread_bricks",
-    "particle": "create_confectionery:block/gingerbread_bricks"
-  },
-  "render_type": "solid"
-}
