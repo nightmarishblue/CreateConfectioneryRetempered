@@ -38,8 +38,7 @@ public class ModEventBusEvents {
 
         CCBlockTagProvider blockTagProvider = generator.addProvider(event.includeServer(),
                 new CCBlockTagProvider(packOutput, lookupProvider, existingFileHelper));
-        // item tags goes here
-//        generator.addProvider(event.includeServer(),
-//                new CCItemTagGenerator(packOutput, lookupProvider, blockTagProvider.contentsGetter(), existingFileHelper));
+        generator.addProvider(event.includeServer(),
+                new CCItemTagGenerator(packOutput, lookupProvider, blockTagProvider.contentsGetter(), existingFileHelper));
     }
 }
