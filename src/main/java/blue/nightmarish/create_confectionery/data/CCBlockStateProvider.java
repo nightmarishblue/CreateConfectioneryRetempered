@@ -6,6 +6,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -48,11 +49,23 @@ public class CCBlockStateProvider extends BlockStateProvider {
         stairWithItemFromBlock(CCBlocks.RUBY_CHOCOLATE_BRICK_STAIRS, CCBlocks.RUBY_CHOCOLATE_BRICKS);
         slabWithItemFromBlock(CCBlocks.RUBY_CHOCOLATE_BRICK_SLAB, CCBlocks.RUBY_CHOCOLATE_BRICKS);
 
+        blockWithItem(CCBlocks.CARAMEL_BLOCK, "translucent");
+
         logWithItem(CCBlocks.CANDY_CANE_BLOCK);
     }
 
     private void blockWithItem(RegistryObject<Block> block) {
         simpleBlockWithItem(block.get(), cubeAll(block.get()));
+    }
+
+    private void blockWithItem(RegistryObject<Block> block, String renderType) {
+        String loc = "block/" + block.getId().getPath();
+        ModelFile model = models().withExistingParent(loc, "block/cube_all")
+                .texture("all", loc)
+                .texture("particle", loc)
+                .renderType(renderType);
+        simpleBlock(block.get(), model);
+        simpleBlockItem(block.get(), model);
     }
 
     private void liquidBlock(RegistryObject<LiquidBlock> block) {

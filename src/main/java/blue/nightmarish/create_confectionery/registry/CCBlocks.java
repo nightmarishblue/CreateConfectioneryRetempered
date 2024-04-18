@@ -1,6 +1,7 @@
 package blue.nightmarish.create_confectionery.registry;
 
 import blue.nightmarish.create_confectionery.CreateConfectionery;
+import blue.nightmarish.create_confectionery.block.CaramelBlock;
 import blue.nightmarish.create_confectionery.block.fluid.SweetFluidBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -125,6 +126,14 @@ public class CCBlocks {
     public static final RegistryObject<StairBlock> RUBY_CHOCOLATE_BRICK_STAIRS =
             registerBlockAndItem("ruby_chocolate_brick_stairs", () -> new StairBlock(() -> RUBY_CHOCOLATE_BRICKS.get().defaultBlockState(),
                     BlockBehaviour.Properties.copy(RUBY_CHOCOLATE_BRICKS.get())));
+
+    public static final RegistryObject<Block> CARAMEL_BLOCK =
+            registerBlockAndItem("caramel_block", () -> new CaramelBlock(BlockBehaviour.Properties.of()
+                    .speedFactor(0.4f)
+                    .jumpFactor(0.5f)
+                    .noOcclusion()
+                    .sound(SoundType.HONEY_BLOCK)
+            ));
 
     public static final RegistryObject<RotatedPillarBlock> CANDY_CANE_BLOCK =
             registerBlockAndItem("candy_cane_block", () -> new RotatedPillarBlock(

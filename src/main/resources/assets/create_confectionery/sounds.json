@@ -7,6 +7,16 @@
       }
     ]
   },
+  "block.caramel_block.slide": {
+    "subtitle": "subtitles.block.caramel_block.slide",
+    "sounds": [
+      {
+        "name": "minecraft:block.honey_block.slide",
+        "type": "event",
+        "pitch": 1.2
+      }
+    ]
+  },
   "entity.gingerbread_man.repair": {
     "subtitle": "subtitles.entity.gingerbread_man.repair",
     "sounds": [

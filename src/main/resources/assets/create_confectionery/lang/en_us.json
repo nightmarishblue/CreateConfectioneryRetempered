@@ -17,7 +17,7 @@
   "item.create_confectionery.ruby_chocolate_bucket": "Ruby Chocolate Bucket",
   "block.create_confectionery.gingerbread_bricks": "Gingerbread Bricks",
   "fluid.create_confectionery.dark_chocolate": "Dark Chocolate",
-  "block.create_confectionery.caramel_bricks": "Caramel Block",
+  "block.create_confectionery.caramel_block": "Block of Caramel",
   "item.create_confectionery.gingerbread": "Gingerbread",
   "item.create_confectionery.music_disc_the_bright_side.desc": "RedWolf - The Bright Side",
   "fluid_type.create_confectionery.dark_chocolate": "Dark Chocolate",
@@ -89,7 +89,7 @@
   "item.create_confectionery.marshmallow_on_a_stick": "Marshmallows on a Stick",
   "item.create_confectionery.ruby_coated_dark_candy": "Ruby Chocolate Candy",
   "item.create_confectionery.white_chocolate_glazed_berries": "White Chocolate Glazed Berries",
-  "item.create_confectionery.music_disc_the_bright_side": "§bMusic Disc",
+  "item.create_confectionery.music_disc_the_bright_side": "Music Disc",
   "item.create_confectionery.bar_of_ruby_chocolate": "Bar of Ruby Chocolate",
   "block.create_confectionery.white_chocolate": "White Chocolate",
   "block.create_confectionery.hot_chocolate": "Hot Chocolate",
@@ -98,5 +98,6 @@
   "subtitles.entity.gingerbread_man.repair": "Gingerbread Man repaired",
   "subtitles.entity.gingerbread_man.ambient": "Gingerbread Man giggles",
   "subtitles.entity.gingerbread_man.hurt": "Gingerbread Man hurts",
-  "subtitles.entity.gingerbread_man.death": "Gingerbread Man dies"
+  "subtitles.entity.gingerbread_man.death": "Gingerbread Man dies",
+  "subtitles.block.caramel_block.slide": "Sliding down a caramel block"
 }

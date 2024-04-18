@@ -18,6 +18,8 @@ public class CCSounds {
     public static final RegistryObject<SoundEvent> GINGERBREAD_MAN_HURT = registerNew("entity.gingerbread_man.hurt");
     public static final RegistryObject<SoundEvent> GINGERBREAD_MAN_DEATH = registerNew("entity.gingerbread_man.death");
 
+    public static final RegistryObject<SoundEvent> CARAMEL_BLOCK_SLIDE = registerNew("block.caramel_block.slide");
+
     public static RegistryObject<SoundEvent> registerNew(String name) {
         ResourceLocation id = new ResourceLocation(CreateConfectionery.MOD_ID, name);
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(id));
