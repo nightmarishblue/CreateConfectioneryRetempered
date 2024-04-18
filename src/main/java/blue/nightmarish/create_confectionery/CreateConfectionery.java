@@ -1,5 +1,6 @@
 package blue.nightmarish.create_confectionery;
 
+import blue.nightmarish.create_confectionery.network.CCNetManager;
 import blue.nightmarish.create_confectionery.registry.*;
 import com.mojang.logging.LogUtils;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -46,6 +47,9 @@ public class CreateConfectionery
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
+        event.enqueueWork(() -> {
+            CCNetManager.register();
+        });
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

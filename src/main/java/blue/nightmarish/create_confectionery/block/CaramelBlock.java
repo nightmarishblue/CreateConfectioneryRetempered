@@ -1,5 +1,6 @@
 package blue.nightmarish.create_confectionery.block;
 
+import blue.nightmarish.create_confectionery.network.packet.ClientboundCaramelParticleEvent;
 import blue.nightmarish.create_confectionery.registry.CCBlocks;
 import blue.nightmarish.create_confectionery.registry.CCSounds;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -32,6 +33,9 @@ public class CaramelBlock extends HalfTransparentBlock {
 //    private static final int SLIDE_ADVANCEMENT_CHECK_INTERVAL = 20;
     protected static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
 
+    private static final int NUM_JUMP_PARTICLES = 10;
+    private static final int NUM_SLIDE_PARTICLES = 5;
+
     public CaramelBlock(BlockBehaviour.Properties pProperties) {
         super(pProperties);
     }
@@ -49,9 +53,9 @@ public class CaramelBlock extends HalfTransparentBlock {
     public void fallOn(Level pLevel, BlockState pState, BlockPos pPos, Entity pEntity, float pFallDistance) {
         pEntity.playSound(CCSounds.CARAMEL_BLOCK_SLIDE.get(), 1.0F, 1.0F);
         if (!pLevel.isClientSide) {
-            pLevel.broadcastEntityEvent(pEntity, (byte) 54);
+            ClientboundCaramelParticleEvent.broadcastCaramelParticles(pEntity, NUM_JUMP_PARTICLES);
+//            pLevel.broadcastEntityEvent(pEntity, (byte) 54); // send a message to start spawning particles
         }
-
         if (pEntity.causeFallDamage(pFallDistance, 0.2F, pLevel.damageSources().fall())) {
             pEntity.playSound(this.soundType.getFallSound(), this.soundType.getVolume() * 0.5F, this.soundType.getPitch() * 0.75F);
         }
@@ -63,7 +67,6 @@ public class CaramelBlock extends HalfTransparentBlock {
             this.doSlideMovement(pEntity);
             this.maybeDoSlideEffects(pLevel, pEntity);
         }
-
         super.entityInside(pState, pLevel, pPos, pEntity);
     }
 
@@ -90,7 +93,6 @@ public class CaramelBlock extends HalfTransparentBlock {
         } else {
             pEntity.setDeltaMovement(new Vec3(vec3.x, -THROTTLE_SLIDE_SPEED_TO, vec3.z));
         }
-
         pEntity.resetFallDistance();
     }
 
@@ -99,27 +101,19 @@ public class CaramelBlock extends HalfTransparentBlock {
             if (pLevel.random.nextInt(5) == 0) {
                 pEntity.playSound(CCSounds.CARAMEL_BLOCK_SLIDE.get(), 1.0F, 1.0F);
             }
-
             if (!pLevel.isClientSide && pLevel.random.nextInt(5) == 0) {
-                pLevel.broadcastEntityEvent(pEntity, (byte) 53);
+                ClientboundCaramelParticleEvent.broadcastCaramelParticles(pEntity, NUM_SLIDE_PARTICLES);
             }
         }
     }
 
-    public static void showSlideParticles(Entity pEntity) {
-        showParticles(pEntity, 5);
-    }
-
-    public static void showJumpParticles(Entity pEntity) {
-        showParticles(pEntity, 10);
-    }
-
-    private static void showParticles(Entity pEntity, int pParticleCount) {
+    public static void showParticles(Entity pEntity, int pParticleCount) {
         if (pEntity.level().isClientSide) {
             BlockState blockstate = CCBlocks.CARAMEL_BLOCK.get().defaultBlockState();
 
             for(int i = 0; i < pParticleCount; ++i) {
-                pEntity.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockstate), pEntity.getX(), pEntity.getY(), pEntity.getZ(), 0.0D, 0.0D, 0.0D);
+                pEntity.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockstate), pEntity.getX(),
+                        pEntity.getY(), pEntity.getZ(), 0.0D, 0.0D, 0.0D);
             }
         }
     }
