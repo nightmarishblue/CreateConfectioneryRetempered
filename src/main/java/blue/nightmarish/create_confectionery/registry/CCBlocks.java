@@ -93,8 +93,6 @@ public class CCBlocks {
                     .strength(2F)
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .sound(SoundType.MUD)
-                    .friction(0.99F)
-                    .speedFactor(0.99F)
                     .requiresCorrectToolForDrops()
             ));
     public static final RegistryObject<SlabBlock> CHOCOLATE_BRICK_SLAB =
