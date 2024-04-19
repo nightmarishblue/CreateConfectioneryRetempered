@@ -2,6 +2,7 @@ package blue.nightmarish.create_confectionery.registry;
 
 import blue.nightmarish.create_confectionery.CreateConfectionery;
 import blue.nightmarish.create_confectionery.block.CaramelBlock;
+import blue.nightmarish.create_confectionery.block.CaramelSlabBlock;
 import blue.nightmarish.create_confectionery.block.fluid.SweetFluidBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -132,6 +133,9 @@ public class CCBlocks {
                     .noOcclusion()
                     .sound(SoundType.HONEY_BLOCK)
             ));
+
+    public static final RegistryObject<SlabBlock> CARAMEL_SLAB =
+            registerBlockAndItem("caramel_slab", () -> new CaramelSlabBlock(BlockBehaviour.Properties.copy(CARAMEL_BLOCK.get())));
 
     public static final RegistryObject<RotatedPillarBlock> CANDY_CANE_BLOCK =
             registerBlockAndItem("candy_cane_block", () -> new RotatedPillarBlock(

@@ -50,6 +50,7 @@ public class CCBlockStateProvider extends BlockStateProvider {
         slabWithItemFromBlock(CCBlocks.RUBY_CHOCOLATE_BRICK_SLAB, CCBlocks.RUBY_CHOCOLATE_BRICKS);
 
         blockWithItem(CCBlocks.CARAMEL_BLOCK, "translucent");
+        slabWithItemFromBlock(CCBlocks.CARAMEL_SLAB, CCBlocks.CARAMEL_BLOCK, "translucent");
 
         logWithItem(CCBlocks.CANDY_CANE_BLOCK);
     }
@@ -98,5 +99,26 @@ public class CCBlockStateProvider extends BlockStateProvider {
                 "block/" + slab.getId().getPath(),
                 "block/slab"
         ));
+    }
+
+    private void slabWithItemFromBlock(RegistryObject<SlabBlock> slab, RegistryObject<Block> block, String renderType) {
+        ResourceLocation loc = new ResourceLocation(CreateConfectionery.MOD_ID, "block/" + block.getId().getPath());
+        slabBlockWithRenderType(slab, loc, loc, renderType);
+        simpleBlockItem(slab.get(), models().withExistingParent(
+                "block/" + slab.getId().getPath(),
+                "block/slab"
+        ).renderType(renderType));
+    }
+
+    public void slabBlockWithRenderType(RegistryObject<SlabBlock> block, ResourceLocation doubleslab, ResourceLocation texture, String renderType) {
+        slabBlock(block, doubleslab, texture, texture, texture, renderType);
+    }
+
+    public void slabBlock(RegistryObject<SlabBlock> block, ResourceLocation doubleslab, ResourceLocation side, ResourceLocation bottom, ResourceLocation top, String renderType) {
+        slabBlock(block.get(),
+                models().slab(block.getId().getPath(), side, bottom, top).renderType(renderType),
+                models().slabTop(block.getId().getPath() + "_top", side, bottom, top).renderType(renderType),
+                models().getExistingFile(doubleslab)
+        );
     }
 }
