@@ -102,8 +102,10 @@ public class CCBlockStateProvider extends BlockStateProvider {
     }
 
     private void slabWithItemFromBlock(RegistryObject<SlabBlock> slab, RegistryObject<Block> block, String renderType) {
-        ResourceLocation loc = new ResourceLocation(CreateConfectionery.MOD_ID, "block/" + block.getId().getPath());
-        slabBlockWithRenderType(slab, loc, loc, renderType);
+        ResourceLocation slabLoc = new ResourceLocation(CreateConfectionery.MOD_ID, "block/" + slab.getId().getPath());
+        ResourceLocation blockLoc = new ResourceLocation(CreateConfectionery.MOD_ID, "block/" + block.getId().getPath());
+
+        slabBlock(slab, blockLoc, slabLoc, blockLoc, blockLoc, renderType);
         simpleBlockItem(slab.get(), models().withExistingParent(
                 "block/" + slab.getId().getPath(),
                 "block/slab"
