@@ -30,7 +30,7 @@ public class ModEventBusEvents {
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
         // recipes goes heres
-//        generator.addProvider(event.includeServer(), new CCRecipeProvider(packOutput));
+        generator.addProvider(event.includeServer(), new CCRecipeProvider(packOutput));
         generator.addProvider(event.includeServer(), CCLootTableProvider.create(packOutput));
 
         generator.addProvider(event.includeClient(), new CCBlockStateProvider(packOutput, existingFileHelper));
