@@ -4,19 +4,17 @@ import blue.nightmarish.create_confectionery.CreateConfectionery;
 import blue.nightmarish.create_confectionery.registry.CCBlocks;
 import blue.nightmarish.create_confectionery.registry.CCItems;
 import com.simibubi.create.AllItems;
-import net.minecraft.advancements.CriterionTrigger;
-import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
-import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Consumer;
@@ -33,6 +31,10 @@ public class CCRecipeProvider extends RecipeProvider implements IConditionBuilde
     @Override
     protected void buildRecipes(Consumer<FinishedRecipe> pWriter) {
         WRITER = pWriter;
+        // recipes for the foodstuffs
+        ovenRecipe(CCItems.GINGERDOUGH, CCItems.GINGERBREAD);
+        campfireRecipe(CCItems.MARSHMALLOW_ON_STICK, CCItems.CARAMELIZED_MARSHMALLOW_ON_STICK);
+
         // packing recipes for blocks
         twoXPacker(CCBlocks.GINGERBREAD_BLOCK, CCItems.GINGERDOUGH);
         twoXPacker(CCBlocks.GINGERBREAD_BRICKS, CCItems.GINGERBREAD);
@@ -92,5 +94,14 @@ public class CCRecipeProvider extends RecipeProvider implements IConditionBuilde
 
     private static void twoXPacker(Supplier<? extends Block> block, Supplier<? extends Item> item) {
         twoByTwoPacker(WRITER, RecipeCategory.BUILDING_BLOCKS, block.get(), item.get());
+    }
+
+    private static void ovenRecipe(Supplier<? extends Item> input, Supplier<? extends Item> output) {
+        simpleCookingRecipe(WRITER, "smoking", RecipeSerializer.SMOKING_RECIPE, 100, input.get(), output.get(), 0.35F);
+        simpleCookingRecipe(WRITER, "smelting", RecipeSerializer.SMELTING_RECIPE, 200, input.get(), output.get(), 0.35F);
+    }
+
+    private static void campfireRecipe(Supplier<? extends Item> input, Supplier<? extends Item> output) {
+        simpleCookingRecipe(WRITER, "campfire_cooking", RecipeSerializer.CAMPFIRE_COOKING_RECIPE, 600, input.get(), output.get(), 0F);
     }
 }
