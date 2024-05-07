@@ -128,8 +128,8 @@ public class CCBlocks {
 
     public static final RegistryObject<Block> CARAMEL_BLOCK =
             registerBlockAndItem("caramel_block", () -> new CaramelBlock(BlockBehaviour.Properties.of()
-                    .speedFactor(0.4f)
-                    .jumpFactor(0.5f)
+//                    .speedFactor(0.4f)
+//                    .jumpFactor(0.5f)
                     .noOcclusion()
                     .sound(SoundType.HONEY_BLOCK)
             ));

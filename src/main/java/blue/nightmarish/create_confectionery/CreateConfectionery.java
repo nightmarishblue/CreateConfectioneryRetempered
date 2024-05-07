@@ -47,9 +47,9 @@ public class CreateConfectionery
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-        event.enqueueWork(() -> {
-            CCNetManager.register();
-        });
+//        event.enqueueWork(() -> {
+//            CCNetManager.register();
+//        });
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

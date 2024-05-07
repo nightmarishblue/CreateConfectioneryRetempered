@@ -20,17 +20,17 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class CaramelBlock extends HalfTransparentBlock implements CaramelBlockBehavior {
-    public static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
+public class CaramelBlock extends HalfTransparentBlock {
+//    public static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
 
     public CaramelBlock(BlockBehaviour.Properties pProperties) {
         super(pProperties);
     }
 
-    @Override
-    public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return SHAPE;
-    }
+//    @Override
+//    public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+//        return SHAPE;
+//    }
 
     @Override
     public boolean skipRendering(BlockState pState, BlockState pAdjacentBlockState, Direction pSide) {
@@ -40,14 +40,14 @@ public class CaramelBlock extends HalfTransparentBlock implements CaramelBlockBe
             return super.skipRendering(pState, pAdjacentBlockState, pSide);
     }
 
-    @Override
-    public void fallOn(Level pLevel, BlockState pState, BlockPos pPos, Entity pEntity, float pFallDistance) {
-        this.squelchOnFall(pLevel, pEntity, pFallDistance, this.soundType);
-    }
-
-    @Override
-    public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
-        this.slowTouchingEntity(pLevel, pPos, pEntity);
-        super.entityInside(pState, pLevel, pPos, pEntity);
-    }
+//    @Override
+//    public void fallOn(Level pLevel, BlockState pState, BlockPos pPos, Entity pEntity, float pFallDistance) {
+//        this.squelchOnFall(pLevel, pEntity, pFallDistance, this.soundType);
+//    }
+//
+//    @Override
+//    public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
+//        this.slowTouchingEntity(pLevel, pPos, pEntity);
+//        super.entityInside(pState, pLevel, pPos, pEntity);
+//    }
 }
