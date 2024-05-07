@@ -2,6 +2,8 @@ package blue.nightmarish.create_confectionery.data;
 
 import blue.nightmarish.create_confectionery.CreateConfectionery;
 import blue.nightmarish.create_confectionery.registry.CCBlocks;
+import blue.nightmarish.create_confectionery.registry.CCItems;
+import com.simibubi.create.AllItems;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.data.PackOutput;
@@ -18,6 +20,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @ParametersAreNonnullByDefault
 public class CCRecipeProvider extends RecipeProvider implements IConditionBuilder {
@@ -31,7 +34,18 @@ public class CCRecipeProvider extends RecipeProvider implements IConditionBuilde
     protected void buildRecipes(Consumer<FinishedRecipe> pWriter) {
         WRITER = pWriter;
         // packing recipes for blocks
-//        twoByTwoPacker(pWriter, RecipeCategory.BUILDING_BLOCKS, CCBlocks.GINGERBREAD_BLOCK.get(), );
+        twoXPacker(CCBlocks.GINGERBREAD_BLOCK, CCItems.GINGERDOUGH);
+        twoXPacker(CCBlocks.GINGERBREAD_BRICKS, CCItems.GINGERBREAD);
+
+        twoXPacker(CCBlocks.CHOCOLATE_BRICKS, AllItems.BAR_OF_CHOCOLATE);
+        twoXPacker(CCBlocks.DARK_CHOCOLATE_BRICKS, CCItems.BAR_OF_DARK_CHOCOLATE);
+        twoXPacker(CCBlocks.WHITE_CHOCOLATE_BRICKS, CCItems.BAR_OF_WHITE_CHOCOLATE);
+        twoXPacker(CCBlocks.RUBY_CHOCOLATE_BRICKS, CCItems.BAR_OF_RUBY_CHOCOLATE);
+
+        twoXPacker(CCBlocks.CARAMEL_BLOCK, CCItems.BAR_OF_CARAMEL); // considering switching this to a fluid pressing recipe
+
+        twoXPacker(CCBlocks.CANDY_CANE_BLOCK, CCItems.CANDY_CANE);
+
         // generate stairs and slabs
         stoneStuff(CCBlocks.GINGERBREAD_BLOCK, CCBlocks.GINGERBREAD_SLAB, CCBlocks.GINGERBREAD_STAIRS);
         stoneStuff(CCBlocks.GINGERBREAD_BRICKS, CCBlocks.GINGERBREAD_BRICK_SLAB, CCBlocks.GINGERBREAD_BRICK_STAIRS);
@@ -40,37 +54,43 @@ public class CCRecipeProvider extends RecipeProvider implements IConditionBuilde
         stoneStuff(CCBlocks.DARK_CHOCOLATE_BRICKS, CCBlocks.DARK_CHOCOLATE_BRICK_SLAB, CCBlocks.DARK_CHOCOLATE_BRICK_STAIRS);
         stoneStuff(CCBlocks.WHITE_CHOCOLATE_BRICKS, CCBlocks.WHITE_CHOCOLATE_BRICK_SLAB, CCBlocks.WHITE_CHOCOLATE_BRICK_STAIRS);
         stoneStuff(CCBlocks.RUBY_CHOCOLATE_BRICKS, CCBlocks.RUBY_CHOCOLATE_BRICK_SLAB, CCBlocks.RUBY_CHOCOLATE_BRICK_STAIRS);
+
+        slabStuff(CCBlocks.CARAMEL_BLOCK, CCBlocks.CARAMEL_SLAB);
     }
 
     // make the stairs and block for a set of stonelike things
-    private static void stoneStuff(RegistryObject<Block> blockSup, RegistryObject<SlabBlock> slabSup, RegistryObject<StairBlock> stairSup) {
-        Item block = blockSup.get().asItem();
-        Item slab = slabSup.get().asItem();
-        Item stair = stairSup.get().asItem();
+    private static void stoneStuff(Supplier<? extends Block> block, Supplier<? extends SlabBlock> slab, Supplier<? extends StairBlock> stairs) {
+        slabStuff(block, slab);
+        stairStuff(block, stairs);
+    }
 
-        Ingredient ingredient = Ingredient.of(block);
-        String criterion = getHasName(block);
-
+    private static void slabStuff(Supplier<? extends Block> block, Supplier<? extends SlabBlock> slab) {
         // craft a slab in a table
-        slabBuilder(RecipeCategory.BUILDING_BLOCKS, slab, ingredient)
-                .unlockedBy(criterion, has(block))
+        slabBuilder(RecipeCategory.BUILDING_BLOCKS, slab.get(), Ingredient.of(block.get()))
+                .unlockedBy(getHasName(block.get()), has(block.get()))
                 .save(WRITER);
 
         // stone cut a slab
-        stonecutterRecipe(slab, block, 2);
+        stonecutterRecipe(slab.get(), block.get(), 2);
+    }
 
-        // stair in table
-        stairBuilder(stair, ingredient)
-                .unlockedBy(criterion, has(block))
+    private static void stairStuff(Supplier<? extends Block> block, Supplier<? extends StairBlock> stairs) {
+        // craft a slab in a table
+        stairBuilder(stairs.get(), Ingredient.of(block.get()))
+                .unlockedBy(getHasName(block.get()), has(block.get()))
                 .save(WRITER);
 
-        // stair in cutter
-        stonecutterRecipe(stair, block, 1);
+        // stone cut a slab
+        stonecutterRecipe(stairs.get(), block.get(), 1);
     }
 
     private static void stonecutterRecipe(ItemLike pResult, ItemLike pMaterial, int pResultCount) {
         SingleItemRecipeBuilder.stonecutting(Ingredient.of(pMaterial), RecipeCategory.BUILDING_BLOCKS, pResult, pResultCount)
                 .unlockedBy(getHasName(pMaterial), has(pMaterial))
                 .save(WRITER, new ResourceLocation(CreateConfectionery.MOD_ID, getConversionRecipeName(pResult, pMaterial) + "_stonecutting"));
+    }
+
+    private static void twoXPacker(Supplier<? extends Block> block, Supplier<? extends Item> item) {
+        twoByTwoPacker(WRITER, RecipeCategory.BUILDING_BLOCKS, block.get(), item.get());
     }
 }
