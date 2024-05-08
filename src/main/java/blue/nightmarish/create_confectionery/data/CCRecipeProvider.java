@@ -8,6 +8,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
@@ -34,6 +35,11 @@ public class CCRecipeProvider extends RecipeProvider implements IConditionBuilde
         // recipes for the foodstuffs
         ovenRecipe(CCItems.GINGERDOUGH, CCItems.GINGERBREAD);
         campfireRecipe(CCItems.MARSHMALLOW_ON_STICK, CCItems.CARAMELIZED_MARSHMALLOW_ON_STICK);
+        // chocolate bars
+        chocolateBar(AllItems.BAR_OF_CHOCOLATE, CCItems.FULL_CHOCOLATE_BAR);
+        chocolateBar(CCItems.BAR_OF_DARK_CHOCOLATE, CCItems.FULL_DARK_CHOCOLATE_BAR);
+        chocolateBar(CCItems.BAR_OF_WHITE_CHOCOLATE, CCItems.FULL_WHITE_CHOCOLATE_BAR);
+        chocolateBar(CCItems.BAR_OF_RUBY_CHOCOLATE, CCItems.FULL_RUBY_CHOCOLATE_BAR);
 
         // packing recipes for blocks
         twoXPacker(CCBlocks.GINGERBREAD_BLOCK, CCItems.GINGERDOUGH);
@@ -103,5 +109,15 @@ public class CCRecipeProvider extends RecipeProvider implements IConditionBuilde
 
     private static void campfireRecipe(Supplier<? extends Item> input, Supplier<? extends Item> output) {
         simpleCookingRecipe(WRITER, "campfire_cooking", RecipeSerializer.CAMPFIRE_COOKING_RECIPE, 600, input.get(), output.get(), 0F);
+    }
+
+    private static void chocolateBar(Supplier<? extends Item> chocolate, Supplier<? extends Item> fullBar) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, fullBar.get())
+                .define('^', Items.PAPER).define('#', chocolate.get())
+                .pattern("##")
+                .pattern("##")
+                .pattern("^^")
+                .unlockedBy(getHasName(chocolate.get()), has(chocolate.get()))
+                .save(WRITER);
     }
 }
