@@ -34,6 +34,9 @@ public class CCRecipeProvider extends RecipeProvider implements IConditionBuilde
         WRITER = pWriter;
         // recipes for the foodstuffs
         ovenRecipe(CCItems.GINGERDOUGH, CCItems.GINGERBREAD);
+        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, CCItems.MARSHMALLOW_ON_STICK.get())
+                .define('#', CCItems.MARSHMALLOW.get()).define('|', Items.STICK)
+                .pattern("##").pattern("| ").unlockedBy(getHasName(CCItems.MARSHMALLOW.get()), has(CCItems.MARSHMALLOW.get())).save(WRITER);
         campfireRecipe(CCItems.MARSHMALLOW_ON_STICK, CCItems.CARAMELIZED_MARSHMALLOW_ON_STICK);
         // chocolate bars
         chocolateBar(AllItems.BAR_OF_CHOCOLATE, CCItems.FULL_CHOCOLATE_BAR);
