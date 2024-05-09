@@ -4,6 +4,7 @@ import blue.nightmarish.create_confectionery.CreateConfectionery;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import com.simibubi.create.foundation.data.recipe.ProcessingRecipeGen;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
@@ -17,6 +18,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+@MethodsReturnNonnullByDefault
 public abstract class CCProcessingRecipeGen extends ProcessingRecipeGen {
     protected static final List<CCProcessingRecipeGen> GENERATORS = new ArrayList<>();
 
