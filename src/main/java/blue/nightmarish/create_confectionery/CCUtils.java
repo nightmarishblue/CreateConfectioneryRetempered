@@ -17,14 +17,16 @@ import net.minecraftforge.registries.tags.IReverseTag;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class CCUtils {
+    // quickly generate forge item tags
+    public static TagKey<Item> forgeItemTag(String name) {
+        return Objects.requireNonNull(ForgeRegistries.ITEMS.tags())
+                .createOptionalTagKey(new ResourceLocation("forge", name), Collections.emptySet());
+    }
     // combine two sets of effects together
     public static List<MobEffectInstance> combineEffects(List<MobEffectInstance> firstEffects, List<MobEffectInstance> secondEffects) {
         int length = firstEffects.size() + secondEffects.size();
