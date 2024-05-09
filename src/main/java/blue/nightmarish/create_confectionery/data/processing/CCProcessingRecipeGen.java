@@ -23,7 +23,7 @@ public abstract class CCProcessingRecipeGen extends ProcessingRecipeGen {
     public static void registerAll(DataGenerator generator, PackOutput output) {
 //        GENERATORS.add(new CCPressingRecipes(output));
 //        GENERATORS.add(new CCMixingRecipes(output));
-//        GENERATORS.add(new CCMillingRecipes(output));
+        GENERATORS.add(new CCMillingRecipes(output));
 
         generator.addProvider(true, new DataProvider() {
             @Override
