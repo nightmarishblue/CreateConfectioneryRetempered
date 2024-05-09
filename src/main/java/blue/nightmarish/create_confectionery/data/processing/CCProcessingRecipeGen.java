@@ -21,7 +21,7 @@ public abstract class CCProcessingRecipeGen extends ProcessingRecipeGen {
     protected static final List<CCProcessingRecipeGen> GENERATORS = new ArrayList<>();
 
     public static void registerAll(DataGenerator generator, PackOutput output) {
-//        GENERATORS.add(new CCPressingRecipes(output));
+        GENERATORS.add(new CCPressingRecipes(output));
 //        GENERATORS.add(new CCMixingRecipes(output));
         GENERATORS.add(new CCMillingRecipes(output));
 
