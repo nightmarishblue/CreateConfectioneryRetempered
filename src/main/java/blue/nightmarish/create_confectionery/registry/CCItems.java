@@ -7,16 +7,13 @@ import blue.nightmarish.create_confectionery.item.*;
 import blue.nightmarish.create_confectionery.item.chocolate.*;
 import blue.nightmarish.create_confectionery.item.gingerbread.GingerbreadItem;
 import blue.nightmarish.create_confectionery.item.gingerbread.GingerbreadManItem;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 public class CCItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, CreateConfectionery.MOD_ID);
@@ -60,6 +57,10 @@ public class CCItems {
             .register("full_ruby_chocolate_bar", () -> new FullChocolateBarItem(CCConstants.RUBY_CHOC_EFFECTS));
     public static final RegistryObject<Item> FULL_WHITE_CHOCOLATE_BAR = ITEMS
             .register("full_white_chocolate_bar", () -> new FullChocolateBarItem(CCConstants.WHITE_CHOC_EFFECTS));
+
+    // hot chocolate (oops)
+    public static final RegistryObject<Item> HOT_CHOCOLATE = ITEMS
+            .register("hot_chocolate", HotChocolateItem::new);
 
     // glazed berries
     public static final RegistryObject<Item> DARK_CHOCOLATE_GLAZED_BERRIES = ITEMS

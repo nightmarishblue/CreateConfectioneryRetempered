@@ -26,6 +26,7 @@ public class CCConstants {
     public static final List<MobEffectInstance> DARK_CHOC_EFFECTS = List.of(new MobEffectInstance(CCEffects.STIMULATION.get(), STIMULATION_DURATION));
     public static final List<MobEffectInstance> RUBY_CHOC_EFFECTS = List.of(new MobEffectInstance(MobEffects.HEALTH_BOOST, HEALTH_DURATION));
     public static final List<MobEffectInstance> WHITE_CHOC_EFFECTS = List.of(new MobEffectInstance(CCEffects.REST.get(), REST_DURATION));
+    public static final List<MobEffectInstance> HOT_CHOC_EFFECTS = List.of(new MobEffectInstance((CCEffects.REST.get()), REST_DURATION));
     public static final List<MobEffectInstance> CARAMEL_EFFECTS = List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, SPEED_DURATION));
     public static final List<MobEffectInstance> GINGERBREAD_EFFECTS = List.of(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, RESISTANCE_DURATION));
     public static final List<MobEffectInstance> CANDY_CANE_EFFECTS = List.of(new MobEffectInstance(MobEffects.DIG_SPEED, HASTE_DURATION));
