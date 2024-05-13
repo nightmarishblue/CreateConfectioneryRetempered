@@ -27,6 +27,7 @@ public abstract class CCProcessingRecipeGen extends ProcessingRecipeGen {
         GENERATORS.add(new CCMixingRecipes(output));
         GENERATORS.add(new CCMillingRecipes(output));
         GENERATORS.add(new CCCompactingRecipes(output));
+        GENERATORS.add(new CCFillingRecipes(output));
 
         generator.addProvider(true, new DataProvider() {
             @Override
