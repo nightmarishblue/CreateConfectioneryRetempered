@@ -3,6 +3,7 @@ package blue.nightmarish.create_confectionery.event;
 import blue.nightmarish.create_confectionery.CreateConfectionery;
 import blue.nightmarish.create_confectionery.data.*;
 import blue.nightmarish.create_confectionery.data.processing.CCProcessingRecipeGen;
+import blue.nightmarish.create_confectionery.data.processing.CCSequencedAssemblyRecipes;
 import blue.nightmarish.create_confectionery.entity.custom.GingerbreadManEntity;
 import blue.nightmarish.create_confectionery.registry.CCEntities;
 import net.minecraft.core.HolderLookup;
@@ -42,6 +43,7 @@ public class ModEventBusEvents {
         generator.addProvider(event.includeServer(),
                 new CCItemTagGenerator(packOutput, lookupProvider, blockTagProvider.contentsGetter(), existingFileHelper));
         // register the processing recipes
+        generator.addProvider(true, new CCSequencedAssemblyRecipes(packOutput));
         CCProcessingRecipeGen.registerAll(generator, packOutput);
     }
 }

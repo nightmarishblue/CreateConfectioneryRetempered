@@ -1,24 +1,13 @@
 package blue.nightmarish.create_confectionery.item.hot_chocolate;
 
-import blue.nightmarish.create_confectionery.CCConstants;
 import blue.nightmarish.create_confectionery.item.SweetDrinkItem;
+import com.simibubi.create.foundation.utility.Color;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.*;
-import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
 import java.util.List;
 
 @MethodsReturnNonnullByDefault
@@ -26,6 +15,31 @@ import java.util.List;
 public class PlainHotChocolateItem extends SweetDrinkItem {
     public PlainHotChocolateItem() {
         super(List.of(), defaultItemProps(), defaultFoodProps());
+    }
+
+    public float getProgress(ItemStack stack) {
+        if (!stack.hasTag())
+            return 0;
+        CompoundTag tag = stack.getTag();
+        if (!tag.contains("SequencedAssembly"))
+            return 0;
+        return tag.getCompound("SequencedAssembly")
+                .getFloat("Progress");
+    }
+
+    @Override
+    public boolean isBarVisible(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public int getBarWidth(ItemStack stack) {
+        return Math.round(getProgress(stack) * 13);
+    }
+
+    @Override
+    public int getBarColor(ItemStack stack) {
+        return Color.mixColors(0xFF_FFC074, 0xFF_46FFE0, getProgress(stack));
     }
 
     public static Properties defaultItemProps() {

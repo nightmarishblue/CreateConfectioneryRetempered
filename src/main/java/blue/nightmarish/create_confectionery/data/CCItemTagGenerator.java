@@ -2,6 +2,7 @@ package blue.nightmarish.create_confectionery.data;
 
 import blue.nightmarish.create_confectionery.CreateConfectionery;
 import blue.nightmarish.create_confectionery.registry.CCItems;
+import com.simibubi.create.AllTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -38,6 +39,10 @@ public class CCItemTagGenerator extends ItemTagsProvider {
                 CCItems.CANDY_CANE.get(),
                 Items.HONEY_BOTTLE,
                 Items.COOKIE
+        );
+        this.tag(AllTags.AllItemTags.UPRIGHT_ON_BELT.tag).add(
+                CCItems.PLAIN_HOT_CHOCOLATE.get(),
+                CCItems.HOT_CHOCOLATE.get()
         );
     }
 

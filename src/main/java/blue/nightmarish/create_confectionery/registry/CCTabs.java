@@ -17,8 +17,9 @@ public class CCTabs {
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("item_group.create_confectionery.create_confectionery_tab"))
                     .icon(() -> new ItemStack(CCItems.GINGERBREAD_MAN.get()))
-                    .displayItems(((params, tab) -> {
-                        CCItems.ITEMS.getEntries().forEach(itemReg -> tab.accept(itemReg.get()));
-                    }))
+                    .displayItems(((params, tab) -> CCItems.ITEMS.getEntries().forEach(itemReg -> {
+                        if (itemReg.get().equals(CCItems.PLAIN_HOT_CHOCOLATE.get())) return; // hide plain hot chocolate
+                        tab.accept(itemReg.get());
+                    })))
                     .build());
 }
