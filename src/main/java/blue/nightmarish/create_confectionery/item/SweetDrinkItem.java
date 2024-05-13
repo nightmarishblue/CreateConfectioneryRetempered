@@ -22,23 +22,20 @@ import java.util.List;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class HotChocolateItem extends Item {
+public abstract class SweetDrinkItem extends Item {
     public List<MobEffectInstance> effects = new ArrayList<>();
 
-    public HotChocolateItem() {
-        this(CCConstants.HOT_CHOC_EFFECTS);
-    }
     // you probably shouldn't call this without factoring in the effects above
-    public HotChocolateItem(Properties pProperties) {
+    public SweetDrinkItem(Properties pProperties) {
         super(pProperties);
     }
 
-    public HotChocolateItem(List<MobEffectInstance> effects, Properties itemProps, FoodProperties.Builder foodBuilder) {
+    public SweetDrinkItem(List<MobEffectInstance> effects, Properties itemProps, FoodProperties.Builder foodBuilder) {
         this(constructProps(effects, itemProps, foodBuilder));
         this.effects = effects;
     }
 
-    public HotChocolateItem(List<MobEffectInstance> effects) {
+    public SweetDrinkItem(List<MobEffectInstance> effects) {
         this(effects, defaultItemProps(), defaultFoodProps());
     }
 
@@ -52,7 +49,7 @@ public class HotChocolateItem extends Item {
     }
 
     public static FoodProperties.Builder defaultFoodProps() {
-        return new FoodProperties.Builder().nutrition(6).saturationMod(.4F).alwaysEat();
+        return new FoodProperties.Builder().alwaysEat();
     }
 
     @Override

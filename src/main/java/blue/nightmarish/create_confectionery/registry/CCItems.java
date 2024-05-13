@@ -7,6 +7,9 @@ import blue.nightmarish.create_confectionery.item.*;
 import blue.nightmarish.create_confectionery.item.chocolate.*;
 import blue.nightmarish.create_confectionery.item.gingerbread.GingerbreadItem;
 import blue.nightmarish.create_confectionery.item.gingerbread.GingerbreadManItem;
+import blue.nightmarish.create_confectionery.item.hot_chocolate.HotChocolateItem;
+import blue.nightmarish.create_confectionery.item.hot_chocolate.PlainHotChocolateItem;
+import com.simibubi.create.content.processing.sequenced.SequencedAssemblyItem;
 import net.minecraft.world.item.*;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
@@ -59,6 +62,8 @@ public class CCItems {
             .register("full_white_chocolate_bar", () -> new FullChocolateBarItem(CCConstants.WHITE_CHOC_EFFECTS));
 
     // hot chocolate (oops)
+    public static final RegistryObject<Item> PLAIN_HOT_CHOCOLATE = ITEMS
+            .register("plain_hot_chocolate", PlainHotChocolateItem::new);
     public static final RegistryObject<Item> HOT_CHOCOLATE = ITEMS
             .register("hot_chocolate", HotChocolateItem::new);
 
