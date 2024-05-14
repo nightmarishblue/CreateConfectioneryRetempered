@@ -144,7 +144,7 @@ public class CCBlocks {
                             .sound(SoundType.CALCITE)
                             .strength(1, 2)
                             .requiresCorrectToolForDrops()
-            ));
+            ), new Item.Properties().rarity(Rarity.UNCOMMON));
 
     private static <T extends Block> RegistryObject<T> registerBlockAndItem(String name, Supplier<T> block) {
        return registerBlockAndItem(name, block, new Item.Properties());
