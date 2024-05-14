@@ -131,7 +131,7 @@ public class CCBlocks {
 //                    .speedFactor(0.4f)
 //                    .jumpFactor(0.5f)
                     .noOcclusion()
-                    .sound(SoundType.HONEY_BLOCK)
+                    .sound(SoundType.DEEPSLATE_TILES)
             ));
 
     public static final RegistryObject<SlabBlock> CARAMEL_SLAB =
