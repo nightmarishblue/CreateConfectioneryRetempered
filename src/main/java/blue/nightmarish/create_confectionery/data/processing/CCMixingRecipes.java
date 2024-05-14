@@ -70,7 +70,7 @@ public class CCMixingRecipes extends CCProcessingRecipeGen {
     ),
     CARAMEL = create("caramel", b -> b
             .requiresHeat(HeatCondition.HEATED)
-            .require(Fluids.WATER, BOTTLE)
+            .require(ForgeMod.MILK.get(), BOTTLE)
             .require(Items.SUGAR)
             .require(Items.SUGAR)
             .output(CCFluids.CARAMEL.get(), BOTTLE)
