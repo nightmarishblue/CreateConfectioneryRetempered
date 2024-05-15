@@ -35,6 +35,7 @@
   "fluid_type.create_confectionery.hot_chocolate": "Hot Chocolate",
   "item.create_confectionery.hot_chocolate": "Hot Chocolate",
   "item.create_confectionery.plain_hot_chocolate": "Plain Hot Chocolate",
+  "item.create_confectionery.plain_hot_chocolate.tooltip.hint": "Needs marshmallows...",
   "fluid.create_confectionery.ruby_chocolate": "Ruby Chocolate",
   "fluid_type.create_confectionery.white_chocolate": "White Chocolate",
   "fluid.create_confectionery.caramel": "Caramel",

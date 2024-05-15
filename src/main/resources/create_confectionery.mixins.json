@@ -6,6 +6,9 @@
   "mixins": [
     "PumpkinGingerbreadSummon"
   ],
+  "client": [
+    "CreateSequencedAssemblyTooltip"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
