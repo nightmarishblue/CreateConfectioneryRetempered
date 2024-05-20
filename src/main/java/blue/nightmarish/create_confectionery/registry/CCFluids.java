@@ -66,7 +66,7 @@ public class CCFluids {
 
     public static final ForgeFlowingFluid.Properties HOT_CHOCOLATE_PROPERTIES =
             applySweetFluidProps(new ForgeFlowingFluid.Properties(CCFluidTypes.HOT_CHOCOLATE_TYPE,
-                    CCFluids.HOT_CHOCOLATE, CCFluids.FLOWING_HOT_CHOCOLATE)).block(CCBlocks.HOT_CHOCOLATE);
+                    CCFluids.HOT_CHOCOLATE, CCFluids.FLOWING_HOT_CHOCOLATE));
 
     public static ForgeFlowingFluid.Properties applySweetFluidProps(@NotNull ForgeFlowingFluid.Properties properties) {
         return properties.tickRate(25).slopeFindDistance(3).levelDecreasePerBlock(2).explosionResistance(100F);
@@ -79,6 +79,4 @@ public class CCFluids {
                 .block(block)
                 .bucket(bucket);
     }
-
-
 }

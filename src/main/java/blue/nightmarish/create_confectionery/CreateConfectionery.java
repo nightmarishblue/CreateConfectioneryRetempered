@@ -3,6 +3,7 @@ package blue.nightmarish.create_confectionery;
 import blue.nightmarish.create_confectionery.network.CCNetManager;
 import blue.nightmarish.create_confectionery.registry.*;
 import com.mojang.logging.LogUtils;
+import com.simibubi.create.foundation.fluid.FluidHelper;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraftforge.api.distmarker.Dist;

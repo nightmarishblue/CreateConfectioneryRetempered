@@ -32,8 +32,8 @@ public class CCBlocks {
             .register("caramel", () -> new SweetFluidBlock(CCFluids.CARAMEL));
 
     // this block has no bucket and is not intended to be placed
-    public static final RegistryObject<LiquidBlock> HOT_CHOCOLATE = BLOCKS
-            .register("hot_chocolate", () -> new SweetFluidBlock(CCFluids.HOT_CHOCOLATE));
+//    public static final RegistryObject<LiquidBlock> HOT_CHOCOLATE = BLOCKS
+//            .register("hot_chocolate", () -> new SweetFluidBlock(CCFluids.HOT_CHOCOLATE));
 
     public static final RegistryObject<Block> GINGERBREAD_BLOCK =
             registerBlockAndItem(
