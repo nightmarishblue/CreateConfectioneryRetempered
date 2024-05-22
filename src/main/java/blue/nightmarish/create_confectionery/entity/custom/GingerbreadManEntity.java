@@ -9,6 +9,7 @@ import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -16,14 +17,16 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ThrownEgg;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -40,7 +43,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class GingerbreadManEntity extends AbstractGolem {
+public class GingerbreadManEntity extends AbstractGolem implements RangedAttackMob {
     // what it counts as when you gnaw on a gingerbread man
     public static final ItemStack CONSUME_ITEM = new ItemStack(CCItems.GINGERBREAD.get());
     // the particles that come out when you take a bite of this mob
@@ -49,11 +52,15 @@ public class GingerbreadManEntity extends AbstractGolem {
     public static final TagKey<Item> TAME_ITEMS = ItemTags.create(new ResourceLocation(CreateConfectionery.MOD_ID, "gingerbread_man_tame_items"));
 //    public static final Set<FluidType> CAN_SWIM_IN = Set.of(AllFluids.CHOCOLATE.getType(), ForgeMod.MILK_TYPE.get(),
 //            CCFluidTypes.DARK_CHOCOLATE_TYPE.get());
+    public static int MIN_PRANK_DELAY = 20 * 30 * 3;
+
+    private int nextPrank; // the time to perform this mob's next prank
 
     public GingerbreadManEntity(EntityType<GingerbreadManEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setMaxUpStep(0.6F);
         this.xpReward = 0;
+        this.nextPrank = MIN_PRANK_DELAY + this.randomPrankDelay();
     }
 
     @Override
@@ -114,6 +121,22 @@ public class GingerbreadManEntity extends AbstractGolem {
 //        }
         // 4. ???
         return super.mobInteract(pPlayer, pHand);
+    }
+
+    // throw an egg - and maybe other things too
+    @Override
+    public void performRangedAttack(LivingEntity pTarget, float pVelocity) {
+        Projectile egg = new ThrownEgg(this.level(), this);
+        double targetBodyY = pTarget.getEyeY() - 1.1D;
+        double relativeX = pTarget.getX() - this.getX();
+        double relativeY = targetBodyY - egg.getY();
+        double relativeZ = pTarget.getZ() - this.getZ();
+        double extra = Math.sqrt(relativeX * relativeX + relativeZ * relativeZ) * 0.2D;
+        egg.shoot(relativeX, relativeY + extra, relativeZ, 1.6F, 8F);
+        this.playSound(SoundEvents.EGG_THROW, 1F, 0.4F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.level().addFreshEntity(egg);
+        this.nextPrank = this.tickCount + MIN_PRANK_DELAY + this.randomPrankDelay();
+        this.setTarget(null);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -198,6 +221,17 @@ public class GingerbreadManEntity extends AbstractGolem {
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(7, new FloatGoal(this));
         this.goalSelector.addGoal(8, new TemptGoal(this, 1.2D, Ingredient.of(FOOD_ITEMS), false));
+        this.goalSelector.addGoal(0, new RangedAttackGoal(this, 1.25D, 40, 16F));
+        // register players as pranking targets
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 20, true, false, this::shouldPrank));
+    }
+
+    boolean shouldPrank(LivingEntity entity) {
+        return this.tickCount > this.nextPrank;
+    }
+
+    int randomPrankDelay() {
+        return this.getRandom().nextInt(MIN_PRANK_DELAY);
     }
 
     public GingerbreadManDecay getEatenState() {
