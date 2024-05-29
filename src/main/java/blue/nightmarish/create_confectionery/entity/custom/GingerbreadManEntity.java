@@ -2,6 +2,7 @@ package blue.nightmarish.create_confectionery.entity.custom;
 
 import blue.nightmarish.create_confectionery.CCUtils;
 import blue.nightmarish.create_confectionery.CreateConfectionery;
+import blue.nightmarish.create_confectionery.entity.ai.EatCakeGoal;
 import blue.nightmarish.create_confectionery.registry.CCItems;
 import blue.nightmarish.create_confectionery.registry.CCSounds;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -87,39 +88,6 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
             this.gameEvent(GameEvent.EAT, this);
             return InteractionResult.SUCCESS;
         }
-//
-//        // 2. this is tame and you can issue a command
-//        if (this.isOwnedBy(pPlayer)) {
-//            InteractionResult interactionresult = super.mobInteract(pPlayer, pHand);
-//            // if something else didn't happen, try to change its state
-//            if (!interactionresult.consumesAction()) {
-//                this.setOrderedToSit(!this.isOrderedToSit());
-//                CreateConfectionery.LOGGER.info("f");
-//                this.jumping = false;
-//                this.navigation.stop();
-//                this.setTarget(null);
-//                return InteractionResult.SUCCESS;
-//            }
-//            return interactionresult; // otherwise report failure
-//        }
-//
-//        // 3. this isn't tame and you can try to tame it
-//        if (itemstack.is(TAME_ITEMS)) {
-//            if (!pPlayer.getAbilities().instabuild) itemstack.shrink(1);
-//
-//            if (this.random.nextInt(8) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, pPlayer)) {
-//                this.tame(pPlayer);
-//                this.navigation.stop();
-//                this.setTarget(null);
-//                this.setOrderedToSit(false); // unlike wolves, the gingerbread man doesn't sit, so he follows instead
-//                this.level().broadcastEntityEvent(this, (byte)7);
-//            } else {
-//                this.level().broadcastEntityEvent(this, (byte)6);
-//            }
-//
-//            return InteractionResult.SUCCESS;
-//        }
-        // 4. ???
         return super.mobInteract(pPlayer, pHand);
     }
 
@@ -135,7 +103,7 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         egg.shoot(relativeX, relativeY + extra, relativeZ, 1.6F, 8F);
         this.playSound(SoundEvents.EGG_THROW, 1F, 0.4F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
         this.level().addFreshEntity(egg);
-        this.nextPrank = this.tickCount + MIN_PRANK_DELAY + this.randomPrankDelay();
+        this.resetPrankDuration();
         this.setTarget(null);
     }
 
@@ -156,6 +124,14 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
             this.level().addParticle(new ItemParticleOption(ParticleTypes.ITEM, stack),
                     pos.x, pos.y, pos.z, motion.x, motion.y, motion.z);
         }
+    }
+
+    @Override
+    public void ate() {
+        super.ate();
+        this.heal(1f);
+        this.level().playSound(null, this.blockPosition(), SoundEvents.GENERIC_EAT, SoundSource.NEUTRAL, 0.5F, 1.5F);
+        this.resetPrankDuration();
     }
 
     @Override
@@ -198,6 +174,10 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         return CCSounds.GINGERBREAD_MAN_DEATH.get();
     }
 
+    void resetPrankDuration() {
+        this.nextPrank = this.tickCount + MIN_PRANK_DELAY + this.randomPrankDelay();
+    }
+
     public boolean isFood(ItemStack pStack) {
         return pStack.is(FOOD_ITEMS);
     }
@@ -222,15 +202,16 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         this.goalSelector.addGoal(7, new FloatGoal(this));
         this.goalSelector.addGoal(8, new TemptGoal(this, 1.2D, Ingredient.of(FOOD_ITEMS), false));
         this.goalSelector.addGoal(0, new RangedAttackGoal(this, 1.25D, 40, 16F));
+        this.goalSelector.addGoal(2, new EatCakeGoal(this));
         // register players as pranking targets
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 20, true, false, this::shouldPrank));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 20, true, false, entity -> this.shouldPrank()));
     }
 
-    boolean shouldPrank(LivingEntity entity) {
+    public boolean shouldPrank() {
         return this.tickCount > this.nextPrank;
     }
 
-    int randomPrankDelay() {
+    public int randomPrankDelay() {
         return this.getRandom().nextInt(MIN_PRANK_DELAY);
     }
 
