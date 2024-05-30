@@ -62,7 +62,6 @@ public class EatCakeGoal extends Goal {
 
     @Override
     public void start() {
-        CreateConfectionery.LOGGER.info("starting up");
         // move to the cake
         this.mob.getNavigation().stop();
         this.mob.getNavigation().moveTo(this.cake, 1f);
@@ -73,7 +72,6 @@ public class EatCakeGoal extends Goal {
 
     @Override
     public void stop() {
-        CreateConfectionery.LOGGER.info("stopping");
         // reset all variables
         this.mob.getNavigation().stop();
         this.cake = null;
@@ -89,7 +87,6 @@ public class EatCakeGoal extends Goal {
 
     @Override
     public void tick() {
-        CreateConfectionery.LOGGER.info("anim tick is {}, goal tick is {}", this.eatAnimationTick, goalTick);
         this.goalTick = Math.max(0, this.goalTick - 1);
 
         // check if we're done moving
