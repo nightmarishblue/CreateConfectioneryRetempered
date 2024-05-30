@@ -56,7 +56,7 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
     public static final TagKey<Item> TAME_ITEMS = ItemTags.create(new ResourceLocation(CreateConfectionery.MOD_ID, "gingerbread_man_tame_items"));
 //    public static final Set<FluidType> CAN_SWIM_IN = Set.of(AllFluids.CHOCOLATE.getType(), ForgeMod.MILK_TYPE.get(),
 //            CCFluidTypes.DARK_CHOCOLATE_TYPE.get());
-    public static int MIN_PRANK_DELAY = 20 * 30 * 3;
+    public static int MIN_PRANK_DELAY = 20 * 60 * 2;
 
     private int nextPrank; // the time to perform this mob's next prank
 
@@ -203,18 +203,22 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
 //        this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.2D, 10F, 2F, false));
         this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 1D));
 
-        this.goalSelector.addGoal(3, new RangedAttackGoal(this, 1.25D, 40, 16F));
+        this.goalSelector.addGoal(3, new RangedAttackGoal(this, 1.25D, 20, 16F));
         this.goalSelector.addGoal(3, new EatCakeGoal(this));
 
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new TemptGoal(this, 1.2D, Ingredient.of(FOOD_ITEMS), false));
 
         // register players as pranking targets
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 20, true, false, entity -> this.shouldPrank()));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::shouldPrank));
     }
 
     public boolean shouldPrank() {
         return this.tickCount > this.nextPrank;
+    }
+
+    public boolean shouldPrank(LivingEntity entity) {
+        return this.shouldPrank();
     }
 
     public int randomPrankDelay() {
