@@ -1,6 +1,5 @@
 package blue.nightmarish.create_confectionery.entity.ai;
 
-import blue.nightmarish.create_confectionery.CreateConfectionery;
 import blue.nightmarish.create_confectionery.entity.custom.GingerbreadManEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -18,14 +17,13 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class EatCakeGoal extends Goal {
-    private static final int EAT_ANIMATION_DURATION = 20 * 1;
     private static final int GOAL_DURATION = 20 * 10;
     private static final Predicate<BlockState> IS_CAKE = BlockStatePredicate.forBlock(Blocks.CAKE);
 
     private final GingerbreadManEntity mob;
     private final Level level;
     private Path cake; // the closest reachable cake position
-    private int eatAnimationTick, goalTick;
+    private int goalTick;
 
     public EatCakeGoal(GingerbreadManEntity pMob) {
         this.mob = pMob;
@@ -67,7 +65,6 @@ public class EatCakeGoal extends Goal {
         this.mob.getNavigation().moveTo(this.cake, 1f);
         // set a time limit so we don't sit here forever
         this.goalTick = this.adjustedTickDelay(GOAL_DURATION);
-        this.eatAnimationTick = this.adjustedTickDelay(EAT_ANIMATION_DURATION);
     }
 
     @Override
@@ -76,7 +73,6 @@ public class EatCakeGoal extends Goal {
         this.mob.getNavigation().stop();
         this.cake = null;
         this.goalTick = 0;
-        this.eatAnimationTick = 0;
     }
 
     @Override
@@ -90,7 +86,7 @@ public class EatCakeGoal extends Goal {
         this.goalTick = Math.max(0, this.goalTick - 1);
 
         // check if we're done moving
-        if (!this.cake.isDone())
+        if (this.cake.notStarted() || !this.cake.isDone())
             return;
 
         BlockPos pos = this.mob.blockPosition();
@@ -100,13 +96,8 @@ public class EatCakeGoal extends Goal {
             return;
         }
 
-        this.eatAnimationTick = Math.max(0, this.eatAnimationTick - 1);
-        if (this.eatAnimationTick != this.adjustedTickDelay(4))
-            return;
-
         this.eatCake(pos);
         this.goalTick = 0;
-        this.mob.ate();
     }
 
     void eatCake(BlockPos pos) {
@@ -124,8 +115,11 @@ public class EatCakeGoal extends Goal {
         this.level.destroyBlock(pos, false);
         if (i < 6) {
             this.level.setBlock(pos, state.setValue(BlockStateProperties.BITES, i + 1), 1 | 2);
+            if (this.mob.getRandom().nextInt(2) == 0) // if there's still cake, maybe nibble more...
+                this.mob.ate();
         } else {
             this.level.gameEvent(this.mob, GameEvent.BLOCK_DESTROY, pos);
+            this.mob.ate();
         }
     }
 }
