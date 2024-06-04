@@ -62,7 +62,7 @@ public class EatCakeGoal extends Goal {
     public void start() {
         // move to the cake
         this.mob.getNavigation().stop();
-        this.mob.getNavigation().moveTo(this.cake, 1f);
+        this.mob.getNavigation().moveTo(this.cake, 1D);
         // set a time limit so we don't sit here forever
         this.goalTick = this.adjustedTickDelay(GOAL_DURATION);
     }
@@ -102,8 +102,10 @@ public class EatCakeGoal extends Goal {
 
     void eatCake(BlockPos pos) {
         // stop if we can't grief
-        if (!ForgeEventFactory.getMobGriefingEvent(this.level, this.mob))
+        if (!ForgeEventFactory.getMobGriefingEvent(this.level, this.mob)) {
+            this.mob.ate();
             return;
+        }
 
         BlockState state = this.level.getBlockState(pos);
         // make sure it is in fact, cake
