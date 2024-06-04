@@ -188,7 +188,6 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         return this.isFood(stack) && this.getHealth() < this.getMaxHealth();
     }
 
-
     @Override
     public Vec3 getLeashOffset(float pPartialTick) {
         return new Vec3(0, 0.6 * this.getEyeHeight(), this.getBbWidth() * 0.2);
@@ -197,6 +196,16 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
     @Override
     public double getMyRidingOffset() {
         return this.getEyeHeight() * 0.5D;
+    }
+
+    static final double sitMult = 0.3;
+    @Override
+    public void aiStep() {
+        super.aiStep();
+        Entity vehicle = this.getVehicle();
+        if (vehicle != null && this.shouldPrank()) {
+            vehicle.setDeltaMovement(vehicle.getDeltaMovement().multiply(sitMult, 1, sitMult));
+        }
     }
 
     @Override
