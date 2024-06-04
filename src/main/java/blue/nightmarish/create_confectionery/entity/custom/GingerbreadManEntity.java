@@ -56,14 +56,16 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
 //    public static final Set<FluidType> CAN_SWIM_IN = Set.of(AllFluids.CHOCOLATE.getType(), ForgeMod.MILK_TYPE.get(),
 //            CCFluidTypes.DARK_CHOCOLATE_TYPE.get());
     public static int MIN_PRANK_DELAY = 20 * 60 * 2;
+    public static int NUM_PRANK_TYPES = 3;
 
-    private int nextPrank; // the time to perform this mob's next prank
+    private int nextPrankTime; // the time to perform this mob's next prank
+    private int nextPrankType;
 
     public GingerbreadManEntity(EntityType<GingerbreadManEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setMaxUpStep(0.6F);
         this.xpReward = 0;
-        this.nextPrank = MIN_PRANK_DELAY + this.randomPrankDelay();
+        this.nextPrankTime = MIN_PRANK_DELAY + this.randomPrankDelay();
     }
 
     @Override
@@ -177,7 +179,8 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
     }
 
     public void resetPrankDuration() {
-        this.nextPrank = this.tickCount + MIN_PRANK_DELAY + this.randomPrankDelay();
+        this.nextPrankTime = this.tickCount + MIN_PRANK_DELAY + this.randomPrankDelay();
+        this.nextPrankType = this.random.nextInt(NUM_PRANK_TYPES);
     }
 
     public boolean isFood(ItemStack pStack) {
@@ -225,12 +228,16 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         this.goalSelector.addGoal(5, new TemptGoal(this, 1.2D, Ingredient.of(FOOD_ITEMS), false));
 
         // register players as pranking targets
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::shouldPrank));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, mob -> this.shouldPrank(0) && this.shouldPrank(mob)));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Mob.class, 100, true, false, mob -> mob instanceof Enemy));
     }
 
     public boolean shouldPrank() {
-        return this.tickCount > this.nextPrank;
+        return this.tickCount > this.nextPrankTime;
+    }
+
+    public boolean shouldPrank(int prankType) {
+        return prankType == this.nextPrankType && this.shouldPrank();
     }
 
     public boolean shouldPrank(LivingEntity entity) {
