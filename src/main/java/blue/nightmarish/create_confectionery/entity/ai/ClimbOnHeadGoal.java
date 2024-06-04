@@ -40,6 +40,7 @@ public class ClimbOnHeadGoal extends Goal {
     public void stop() {
         this.entity.stopRiding();
         player.connection.send(new ClientboundSetPassengersPacket(this.player));
+        this.entity.resetPrankDuration();
     }
 
     @Override
@@ -56,10 +57,8 @@ public class ClimbOnHeadGoal extends Goal {
             return;
 
         this.isSittingOnHead = this.entity.startRiding(this.player, true);
-        if (this.isSittingOnHead) {
+        if (this.isSittingOnHead)
             player.connection.send(new ClientboundSetPassengersPacket(this.player));
-            this.entity.resetPrankDuration();
-        }
     }
 
     @Override
