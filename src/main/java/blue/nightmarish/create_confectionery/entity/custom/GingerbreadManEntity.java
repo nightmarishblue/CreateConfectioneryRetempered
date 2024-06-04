@@ -2,6 +2,7 @@ package blue.nightmarish.create_confectionery.entity.custom;
 
 import blue.nightmarish.create_confectionery.CCUtils;
 import blue.nightmarish.create_confectionery.CreateConfectionery;
+import blue.nightmarish.create_confectionery.entity.ai.ClimbOnHeadGoal;
 import blue.nightmarish.create_confectionery.entity.ai.EatCakeGoal;
 import blue.nightmarish.create_confectionery.registry.CCItems;
 import blue.nightmarish.create_confectionery.registry.CCSounds;
@@ -18,15 +19,13 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -177,7 +176,7 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         return CCSounds.GINGERBREAD_MAN_DEATH.get();
     }
 
-    void resetPrankDuration() {
+    public void resetPrankDuration() {
         this.nextPrank = this.tickCount + MIN_PRANK_DELAY + this.randomPrankDelay();
     }
 
@@ -196,6 +195,11 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
     }
 
     @Override
+    public double getMyRidingOffset() {
+        return this.getEyeHeight() * 0.5D;
+    }
+
+    @Override
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(0, new FloatGoal(this));
@@ -203,14 +207,17 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
 //        this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.2D, 10F, 2F, false));
         this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 1D));
 
+        // pranks
         this.goalSelector.addGoal(3, new RangedAttackGoal(this, 1.25D, 20, 16F));
         this.goalSelector.addGoal(3, new EatCakeGoal(this));
+        this.goalSelector.addGoal(3, new ClimbOnHeadGoal(this));
 
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new TemptGoal(this, 1.2D, Ingredient.of(FOOD_ITEMS), false));
 
         // register players as pranking targets
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::shouldPrank));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::shouldPrank));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Mob.class, 100, true, false, mob -> mob instanceof Enemy));
     }
 
     public boolean shouldPrank() {
