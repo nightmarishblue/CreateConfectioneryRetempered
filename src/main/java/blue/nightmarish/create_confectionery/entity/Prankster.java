@@ -2,9 +2,9 @@ package blue.nightmarish.create_confectionery.entity;
 
 public interface Prankster {
     enum Prank {
-//        THROW_EGG,
-        EAT_CAKE;
-//        CLIMB_HEAD;
+        THROW_EGG,
+        EAT_CAKE,
+        CLIMB_HEAD;
 
         static final Prank[] values = values();
         public static Prank get(int i) {
