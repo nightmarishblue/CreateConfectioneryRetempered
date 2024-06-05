@@ -1,8 +1,8 @@
 package blue.nightmarish.create_confectionery.entity.ai;
 
-import blue.nightmarish.create_confectionery.entity.custom.GingerbreadManEntity;
+import blue.nightmarish.create_confectionery.entity.Prankster;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -16,19 +16,23 @@ import java.util.EnumSet;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class EatCakeGoal extends Goal {
+public class EatCakeGoal extends PrankGoal {
     private static final int GOAL_DURATION = 20 * 10;
     private static final Predicate<BlockState> IS_CAKE = BlockStatePredicate.forBlock(Blocks.CAKE);
 
-    private final GingerbreadManEntity mob;
     private final Level level;
     private Path cake; // the closest reachable cake position
     private int goalTick;
 
-    public EatCakeGoal(GingerbreadManEntity pMob) {
-        this.mob = pMob;
-        this.level = this.mob.level();
+    public <T extends Mob & Prankster> EatCakeGoal(T pMob) {
+        super(pMob);
+        this.level = this.mob().level();
         this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
+    }
+
+    @Override
+    Prankster.Prank prankType() {
+        return Prankster.Prank.EAT_CAKE;
     }
 
     boolean isCake(BlockPos pos) {
@@ -38,31 +42,29 @@ public class EatCakeGoal extends Goal {
     boolean validCake(BlockPos pos) {
         if (!isCake(pos))
             return false;
-        Path path = this.mob.getNavigation().createPath(pos, 0);
+        Path path = this.mob().getNavigation().createPath(pos, 0);
         return path != null && path.canReach();
     }
 
     //
     boolean searchForCake() {
-        Optional<BlockPos> closestCake = BlockPos.findClosestMatch(this.mob.blockPosition(), 16, 16, this::validCake);
+        Optional<BlockPos> closestCake = BlockPos.findClosestMatch(this.mob().blockPosition(), 16, 16, this::validCake);
         if (closestCake.isEmpty())
             return false;
-        this.cake = this.mob.getNavigation().createPath(closestCake.get(), 0);
+        this.cake = this.mob().getNavigation().createPath(closestCake.get(), 0);
         return true;
     }
 
     @Override
     public boolean canUse() {
-        if (!this.mob.shouldPrank() || this.mob.getRandom().nextInt(8) != 0)
-            return false;
-        return this.searchForCake();
+        return super.canUse() && this.mob().getRandom().nextInt(8) == 0 && this.searchForCake();
     }
 
     @Override
     public void start() {
         // move to the cake
-        this.mob.getNavigation().stop();
-        this.mob.getNavigation().moveTo(this.cake, 1D);
+        this.mob().getNavigation().stop();
+        this.mob().getNavigation().moveTo(this.cake, 1D);
         // set a time limit so we don't sit here forever
         this.goalTick = this.adjustedTickDelay(GOAL_DURATION);
     }
@@ -70,7 +72,7 @@ public class EatCakeGoal extends Goal {
     @Override
     public void stop() {
         // reset all variables
-        this.mob.getNavigation().stop();
+        this.mob().getNavigation().stop();
         this.cake = null;
         this.goalTick = 0;
     }
@@ -78,7 +80,12 @@ public class EatCakeGoal extends Goal {
     @Override
     public boolean canContinueToUse() {
         // stop if we run out of time, or if the cake is destroyed
-        return this.goalTick > 0 && this.mob.shouldPrank();
+        return this.goalTick > 0;
+    }
+
+    @Override
+    public boolean isInterruptable() {
+        return this.goalTick == 0;
     }
 
     @Override
@@ -89,7 +96,7 @@ public class EatCakeGoal extends Goal {
         if (this.cake.notStarted() || !this.cake.isDone())
             return;
 
-        BlockPos pos = this.mob.blockPosition();
+        BlockPos pos = this.mob().blockPosition();
         // check if we're in cake - if not, stop
         if (!IS_CAKE.test(this.level.getBlockState(pos))) {
             this.goalTick = 0;
@@ -102,8 +109,8 @@ public class EatCakeGoal extends Goal {
 
     void eatCake(BlockPos pos) {
         // stop if we can't grief
-        if (!ForgeEventFactory.getMobGriefingEvent(this.level, this.mob)) {
-            this.mob.ate();
+        if (!ForgeEventFactory.getMobGriefingEvent(this.level, this.mob())) {
+            this.mob().ate();
             return;
         }
 
@@ -113,15 +120,15 @@ public class EatCakeGoal extends Goal {
             return;
 
         int i = state.getValue(BlockStateProperties.BITES);
-        this.level.gameEvent(this.mob, GameEvent.EAT, pos);
+        this.level.gameEvent(this.mob(), GameEvent.EAT, pos);
         this.level.destroyBlock(pos, false);
         if (i < 6) {
             this.level.setBlock(pos, state.setValue(BlockStateProperties.BITES, i + 1), 1 | 2);
-            if (this.mob.getRandom().nextInt(2) == 0) // if there's still cake, maybe nibble more...
-                this.mob.ate();
+            if (this.mob().getRandom().nextInt(2) == 0) // if there's still cake, maybe nibble more...
+                this.mob().ate();
         } else {
-            this.level.gameEvent(this.mob, GameEvent.BLOCK_DESTROY, pos);
-            this.mob.ate();
+            this.level.gameEvent(this.mob(), GameEvent.BLOCK_DESTROY, pos);
+            this.mob().ate();
         }
     }
 }
