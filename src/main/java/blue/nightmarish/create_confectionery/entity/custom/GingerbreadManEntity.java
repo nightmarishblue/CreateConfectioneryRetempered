@@ -2,7 +2,7 @@ package blue.nightmarish.create_confectionery.entity.custom;
 
 import blue.nightmarish.create_confectionery.CCUtils;
 import blue.nightmarish.create_confectionery.CreateConfectionery;
-import blue.nightmarish.create_confectionery.entity.ai.ClimbOnHeadGoal;
+import blue.nightmarish.create_confectionery.entity.Prankster;
 import blue.nightmarish.create_confectionery.entity.ai.EatCakeGoal;
 import blue.nightmarish.create_confectionery.registry.CCItems;
 import blue.nightmarish.create_confectionery.registry.CCSounds;
@@ -46,7 +46,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class GingerbreadManEntity extends AbstractGolem implements RangedAttackMob {
+public class GingerbreadManEntity extends AbstractGolem implements RangedAttackMob, Prankster {
     // what it counts as when you gnaw on a gingerbread man
     public static final ItemStack CONSUME_ITEM = new ItemStack(CCItems.GINGERBREAD.get());
     // the particles that come out when you take a bite of this mob
@@ -56,16 +56,15 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
 //    public static final Set<FluidType> CAN_SWIM_IN = Set.of(AllFluids.CHOCOLATE.getType(), ForgeMod.MILK_TYPE.get(),
 //            CCFluidTypes.DARK_CHOCOLATE_TYPE.get());
     public static int MIN_PRANK_DELAY = 20 * 60 * 2;
-    public static int NUM_PRANK_TYPES = 3;
 
     private int nextPrankTime; // the time to perform this mob's next prank
-    private int nextPrankType;
+    private Prank nextPrankType;
 
     public GingerbreadManEntity(EntityType<GingerbreadManEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setMaxUpStep(0.6F);
         this.xpReward = 0;
-        this.nextPrankTime = MIN_PRANK_DELAY + this.randomPrankDelay();
+        this.resetPrankDuration();
     }
 
     @Override
@@ -178,11 +177,6 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         return CCSounds.GINGERBREAD_MAN_DEATH.get();
     }
 
-    public void resetPrankDuration() {
-        this.nextPrankTime = this.tickCount + MIN_PRANK_DELAY + this.randomPrankDelay();
-        this.nextPrankType = this.random.nextInt(NUM_PRANK_TYPES);
-    }
-
     public boolean isFood(ItemStack pStack) {
         return pStack.is(FOOD_ITEMS);
     }
@@ -206,7 +200,7 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
     public void aiStep() {
         super.aiStep();
         Entity vehicle = this.getVehicle();
-        if (vehicle != null && this.shouldPrank()) {
+        if (vehicle != null && this.shouldPrank(Prank.CLIMB_HEAD)) {
             vehicle.setDeltaMovement(vehicle.getDeltaMovement().multiply(sitMult, 1, sitMult));
         }
     }
@@ -220,32 +214,37 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 1D));
 
         // pranks
-        this.goalSelector.addGoal(3, new RangedAttackGoal(this, 1.25D, 20, 16F));
+//        this.goalSelector.addGoal(3, new RangedAttackGoal(this, 1.25D, 20, 16F));
         this.goalSelector.addGoal(3, new EatCakeGoal(this));
-        this.goalSelector.addGoal(3, new ClimbOnHeadGoal(this));
+//        this.goalSelector.addGoal(3, new ClimbOnHeadGoal(this));
 
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new TemptGoal(this, 1.2D, Ingredient.of(FOOD_ITEMS), false));
 
         // register players as pranking targets
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, mob -> this.shouldPrank(0) && this.shouldPrank(mob)));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, mob -> this.shouldPrank(0)));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Mob.class, 100, true, false, mob -> mob instanceof Enemy));
     }
 
+    @Override
     public boolean shouldPrank() {
         return this.tickCount > this.nextPrankTime;
     }
 
-    public boolean shouldPrank(int prankType) {
-        return prankType == this.nextPrankType && this.shouldPrank();
+    @Override
+    public void resetPrankDuration() {
+        this.nextPrankTime = this.tickCount + MIN_PRANK_DELAY + this.random.nextInt(MIN_PRANK_DELAY);
+        this.resetPrankType();
     }
 
-    public boolean shouldPrank(LivingEntity entity) {
-        return this.shouldPrank();
+    @Override
+    public void resetPrankType() {
+        this.nextPrankType = Prank.get(this.random.nextInt(Prank.count));
     }
 
-    public int randomPrankDelay() {
-        return this.getRandom().nextInt(MIN_PRANK_DELAY);
+    @Override
+    public Prank getPrankType() {
+        return this.nextPrankType;
     }
 
     public GingerbreadManDecay getEatenState() {
