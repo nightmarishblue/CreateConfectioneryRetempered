@@ -1,28 +1,33 @@
 package blue.nightmarish.create_confectionery.entity.ai;
 
-import blue.nightmarish.create_confectionery.entity.custom.GingerbreadManEntity;
+import blue.nightmarish.create_confectionery.entity.Prankster;
 import net.minecraft.network.protocol.game.ClientboundSetPassengersPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.pathfinder.Path;
 
-public class ClimbOnHeadGoal extends Goal {
+public class ClimbOnHeadGoal extends PrankGoal {
     public static final int SIT_MIN_DURATION = 20 * 15;
-    private final GingerbreadManEntity entity;
     private ServerPlayer player;
     private boolean isSittingOnHead;
-    private int sitTicks;
+    private int goalTicks;
 
-    public ClimbOnHeadGoal(GingerbreadManEntity gingerbreadMan) {
-        this.entity = gingerbreadMan;
+    public <T extends Mob & Prankster> ClimbOnHeadGoal(T entity) {
+        super(entity);
+    }
+
+    @Override
+    Prankster.Prank prankType() {
+        return Prankster.Prank.CLIMB_HEAD;
     }
 
     @Override
     public boolean canUse() {
-        if (!this.entity.shouldPrank())
+        if (!super.canUse())
             return false;
-        LivingEntity entity = this.entity.getTarget();
-        if (entity instanceof ServerPlayer serverPlayer) {
+        LivingEntity target = this.mob().getTarget();
+        if (target instanceof ServerPlayer serverPlayer) {
             boolean playerViable = !serverPlayer.isSpectator() && !serverPlayer.getAbilities().flying && !serverPlayer.isInWater() && !serverPlayer.isInPowderSnow;
             return playerViable;
         }
@@ -30,39 +35,46 @@ public class ClimbOnHeadGoal extends Goal {
     }
 
     @Override
+    public boolean canContinueToUse() {
+        return this.goalTicks < SIT_MIN_DURATION;
+    }
+
+    @Override
     public void start() {
-        this.player = (ServerPlayer) this.entity.getTarget();
+        this.player = (ServerPlayer) this.mob().getTarget(); // store the player
+
+        // move towards the player
+        Path path = this.mob().getNavigation().createPath(this.player, 0);
+        this.mob().getNavigation().moveTo(path, 1);
+
+        // set control variables
         this.isSittingOnHead = false;
-        this.sitTicks = 0;
+        this.goalTicks = 0;
     }
 
     @Override
     public void stop() {
-        this.entity.stopRiding();
+        this.mob().stopRiding();
+        this.mob().getNavigation().stop();
         player.connection.send(new ClientboundSetPassengersPacket(this.player));
-        this.entity.resetPrankDuration();
+        this.mob().resetPrankDuration();
     }
 
     @Override
     public void tick() {
-        // if we're already sitting, just tick the counter
-        if (this.isSittingOnHead) {
-            this.sitTicks++;
-            return;
-        }
+        this.goalTicks++;
 
-        if (this.entity.isLeashed())
+        if (this.mob().isLeashed() || this.isSittingOnHead)
             return; // don't start sitting if we already are, or if we're leashed
-        if (!this.entity.getBoundingBox().intersects(this.player.getBoundingBox()))
+        if (!this.mob().getBoundingBox().intersects(this.player.getBoundingBox()))
             return;
 
-        this.isSittingOnHead = this.entity.startRiding(this.player, true);
-        if (this.isSittingOnHead)
+        if (this.isSittingOnHead = this.mob().startRiding(this.player, true))
             player.connection.send(new ClientboundSetPassengersPacket(this.player));
     }
 
     @Override
     public boolean isInterruptable() {
-        return !this.isSittingOnHead && this.sitTicks > this.adjustedTickDelay(SIT_MIN_DURATION);
+        return !this.isSittingOnHead;
     }
 }
