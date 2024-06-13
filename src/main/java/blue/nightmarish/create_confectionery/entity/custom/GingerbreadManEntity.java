@@ -107,8 +107,10 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         egg.shoot(relativeX, relativeY + extra, relativeZ, 1.6F, 8F);
         this.playSound(SoundEvents.EGG_THROW, 1F, 0.4F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
         this.level().addFreshEntity(egg);
-        this.resetPrankDuration();
-        this.setTarget(null);
+        if (!(pTarget instanceof Enemy)) {
+            this.resetPrankDuration();
+            this.setTarget(null);
+        }
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -224,15 +226,20 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
 
         // register players as pranking targets
         // target players and monsters at range to throw eggs at
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, mob -> this.shouldPrank(Prank.THROW_EGG)));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Mob.class, 100, true, false, mob -> mob instanceof Enemy));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, mob -> this.shouldPrank(mob, Prank.THROW_EGG)));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Mob.class, 10, true, false, mob -> mob instanceof Enemy));
         // target players to climb on
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, 20, true, true, mob -> this.shouldPrank(Prank.CLIMB_HEAD)));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, 20, true, true, mob -> this.shouldPrank(mob, Prank.CLIMB_HEAD)));
     }
 
     @Override
     public boolean shouldPrank() {
         return this.tickCount > this.nextPrankTime;
+    }
+
+    @Override
+    public boolean shouldPrank(LivingEntity entity) {
+        return this.shouldPrank() && entity instanceof Player; // TODO: prank "trusted" players less often
     }
 
     @Override
