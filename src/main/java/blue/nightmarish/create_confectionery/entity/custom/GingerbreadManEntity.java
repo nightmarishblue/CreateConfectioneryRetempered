@@ -3,6 +3,7 @@ package blue.nightmarish.create_confectionery.entity.custom;
 import blue.nightmarish.create_confectionery.CCUtils;
 import blue.nightmarish.create_confectionery.CreateConfectionery;
 import blue.nightmarish.create_confectionery.entity.Prankster;
+import blue.nightmarish.create_confectionery.entity.ai.ClimbOnHeadGoal;
 import blue.nightmarish.create_confectionery.entity.ai.EatCakeGoal;
 import blue.nightmarish.create_confectionery.registry.CCItems;
 import blue.nightmarish.create_confectionery.registry.CCSounds;
@@ -214,16 +215,19 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 1D));
 
         // pranks
-//        this.goalSelector.addGoal(3, new RangedAttackGoal(this, 1.25D, 20, 16F));
+        this.goalSelector.addGoal(3, new RangedAttackGoal(this, 1.25D, 20, 16F));
         this.goalSelector.addGoal(3, new EatCakeGoal(this));
-//        this.goalSelector.addGoal(3, new ClimbOnHeadGoal(this));
+        this.goalSelector.addGoal(3, new ClimbOnHeadGoal(this));
 
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new TemptGoal(this, 1.2D, Ingredient.of(FOOD_ITEMS), false));
 
         // register players as pranking targets
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, mob -> this.shouldPrank(0)));
+        // target players and monsters at range to throw eggs at
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, mob -> this.shouldPrank(Prank.THROW_EGG)));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Mob.class, 100, true, false, mob -> mob instanceof Enemy));
+        // target players to climb on
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, 20, true, true, mob -> this.shouldPrank(Prank.CLIMB_HEAD)));
     }
 
     @Override
