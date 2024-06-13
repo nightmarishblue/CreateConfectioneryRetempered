@@ -1,5 +1,7 @@
 package blue.nightmarish.create_confectionery.entity;
 
+import net.minecraft.world.entity.LivingEntity;
+
 public interface Prankster {
     enum Prank {
         THROW_EGG,
@@ -14,11 +16,12 @@ public interface Prankster {
     }
 
     boolean shouldPrank();
+    boolean shouldPrank(LivingEntity entity);
     default boolean shouldPrank(Prank prankType) {
-        return this.getPrankType() == prankType && this.shouldPrank();
+        return this.getPrankType() == prankType;
     }
-    default boolean shouldPrank(int prankType) {
-        return this.getPrankType().ordinal() == prankType && this.shouldPrank();
+    default boolean shouldPrank(LivingEntity entity, Prank type) {
+        return this.shouldPrank(type) && this.shouldPrank(entity);
     }
 
     void resetPrankDuration();
