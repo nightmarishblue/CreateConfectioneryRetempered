@@ -98,7 +98,7 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
     // throw an egg - and maybe other things too
     @Override
     public void performRangedAttack(LivingEntity pTarget, float pVelocity) {
-        Projectile egg = new ThrownEgg(this.level(), this);
+        Projectile egg = new DamagingThrownEgg(this.level(), this);
         double targetBodyY = pTarget.getEyeY() - 1.1D;
         double relativeX = pTarget.getX() - this.getX();
         double relativeY = targetBodyY - egg.getY();
