@@ -196,7 +196,7 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         return this.getEyeHeight() * 0.5D;
     }
 
-    static final double sitMult = 0.3;
+    static final double sitMult = 0.7;
     @Override
     public void aiStep() {
         super.aiStep();
