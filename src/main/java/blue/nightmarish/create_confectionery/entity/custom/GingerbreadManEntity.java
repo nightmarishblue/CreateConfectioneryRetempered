@@ -145,8 +145,8 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         Entity attacker = pSource.getDirectEntity();
         if (this.level().isClientSide() && !pSource.isIndirect() && attacker != null)
             this.spawnItemParticles(EATEN_PARTICLES); // spawn chips if this was a direct physical attack
-        if (attacker instanceof Player player && player.getMainHandItem().isEmpty())
-            player.eat(player.level(), CONSUME_ITEM.copy());
+        if (attacker instanceof LivingEntity livingEntity && livingEntity.getMainHandItem().isEmpty())
+            livingEntity.eat(livingEntity.level(), CONSUME_ITEM.copy());
 
         return super.hurt(pSource, pAmount);
     }
