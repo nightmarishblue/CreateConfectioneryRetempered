@@ -4,7 +4,6 @@ import blue.nightmarish.create_confectionery.CreateConfectionery;
 import blue.nightmarish.create_confectionery.registry.CCItems;
 import com.simibubi.create.AllTags;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -14,15 +13,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.ForgeItemTagsProvider;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
 public class CCItemTagGenerator extends ItemTagsProvider {
     public static TagKey<Item> GINGERBREAD_MAN_FOODS = itemTag("gingerbread_man_foods");
-    public static TagKey<Item> GINGERBREAD_MAN_TAME_ITEMS = itemTag("gingerbread_man_tame_items");
+    public static TagKey<Item> BAD_DISCS = itemTag("bad_discs");
+//    public static TagKey<Item> GINGERBREAD_MAN_TAME_ITEMS = itemTag("gingerbread_man_tame_items");
 
     public CCItemTagGenerator(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pLookupProvider, CompletableFuture<TagLookup<Block>> pBlockTags, @Nullable ExistingFileHelper existingFileHelper) {
         super(pOutput, pLookupProvider, pBlockTags, CreateConfectionery.MOD_ID, existingFileHelper);
@@ -35,11 +33,16 @@ public class CCItemTagGenerator extends ItemTagsProvider {
                 CCItems.GINGERDOUGH.get(),
                 Items.SUGAR
         );
-        this.tag(GINGERBREAD_MAN_TAME_ITEMS).add(
-                CCItems.CANDY_CANE.get(),
-                Items.HONEY_BOTTLE,
-                Items.COOKIE
+        this.tag(BAD_DISCS).add(
+                Items.MUSIC_DISC_5,
+                Items.MUSIC_DISC_11,
+                Items.MUSIC_DISC_13
         );
+//        this.tag(GINGERBREAD_MAN_TAME_ITEMS).add(
+//                CCItems.CANDY_CANE.get(),
+//                Items.HONEY_BOTTLE,
+//                Items.COOKIE
+//        );
         this.tag(AllTags.AllItemTags.UPRIGHT_ON_BELT.tag).add(
                 CCItems.PLAIN_HOT_CHOCOLATE.get(),
                 CCItems.HOT_CHOCOLATE.get()
