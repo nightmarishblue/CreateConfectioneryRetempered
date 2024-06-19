@@ -11,6 +11,7 @@ public abstract class PrankGoal extends Goal {
 
     private final Prankster mob;
     <T extends Mob & Prankster> T mob() {
+        //noinspection unchecked
         return (T) this.mob;
     }
 
