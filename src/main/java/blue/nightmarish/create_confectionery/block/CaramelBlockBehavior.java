@@ -1,6 +1,6 @@
 package blue.nightmarish.create_confectionery.block;
 
-import blue.nightmarish.create_confectionery.network.packet.ClientboundCaramelParticleEvent;
+import blue.nightmarish.create_confectionery.network.clientbound.ClientboundCaramelParticleEvent;
 import blue.nightmarish.create_confectionery.registry.CCBlocks;
 import blue.nightmarish.create_confectionery.registry.CCSounds;
 import net.minecraft.core.BlockPos;

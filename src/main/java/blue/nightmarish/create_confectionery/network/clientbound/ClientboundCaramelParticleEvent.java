@@ -1,12 +1,9 @@
-package blue.nightmarish.create_confectionery.network.packet;
+package blue.nightmarish.create_confectionery.network.clientbound;
 
 import blue.nightmarish.create_confectionery.network.CCNetManager;
-import blue.nightmarish.create_confectionery.network.client.CaramelParticleHandler;
+import blue.nightmarish.create_confectionery.network.ClientPacketHandler;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.PacketListener;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -35,7 +32,7 @@ public class ClientboundCaramelParticleEvent {
     public static boolean handle(ClientboundCaramelParticleEvent message, Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
-            CaramelParticleHandler.handleCaramelPacket(message, context);
+            ClientPacketHandler.renderCaramelParticles(message, context);
         });
         return true;
     }
