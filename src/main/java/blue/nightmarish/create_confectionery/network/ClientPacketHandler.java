@@ -3,7 +3,7 @@ package blue.nightmarish.create_confectionery.network;
 import blue.nightmarish.create_confectionery.block.CaramelBlockBehavior;
 import blue.nightmarish.create_confectionery.entity.custom.GingerbreadManEntity;
 import blue.nightmarish.create_confectionery.network.clientbound.ClientboundCaramelParticleEvent;
-import blue.nightmarish.create_confectionery.network.clientbound.ClientboundJukeboxRecordItem;
+import blue.nightmarish.create_confectionery.network.clientbound.ClientboundGingerbreadManData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;
@@ -18,12 +18,13 @@ public class ClientPacketHandler {
         });
     }
 
-    public static void updateJukeboxContents(ClientboundJukeboxRecordItem packet, NetworkEvent.Context context) {
+    public static void updateGingerbreadManData(ClientboundGingerbreadManData packet, NetworkEvent.Context context) {
         context.enqueueWork(() -> {
             ClientLevel level = Minecraft.getInstance().level;
             Entity entity = level.getEntity(packet.gingerbreadManId);
             if (entity instanceof GingerbreadManEntity gingerbreadMan) {
-                gingerbreadMan.setListeningTo(packet.stack);
+                gingerbreadMan.setJukebox(packet.jukebox);
+                gingerbreadMan.setRecord(packet.record);
             }
         });
     }

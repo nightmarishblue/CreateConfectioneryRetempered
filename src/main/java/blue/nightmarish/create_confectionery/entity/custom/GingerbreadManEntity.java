@@ -6,7 +6,7 @@ import blue.nightmarish.create_confectionery.data.CCItemTagGenerator;
 import blue.nightmarish.create_confectionery.entity.Prankster;
 import blue.nightmarish.create_confectionery.entity.ai.ClimbOnHeadGoal;
 import blue.nightmarish.create_confectionery.entity.ai.EatCakeGoal;
-import blue.nightmarish.create_confectionery.network.serverbound.ServerboundJukeboxRecordRequest;
+import blue.nightmarish.create_confectionery.network.clientbound.ClientboundGingerbreadManData;
 import blue.nightmarish.create_confectionery.registry.CCItems;
 import blue.nightmarish.create_confectionery.registry.CCSounds;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -34,11 +34,13 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.JukeboxBlock;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -47,6 +49,7 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fluids.FluidType;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Optional;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -67,8 +70,7 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
 
     // stats to check whether this guy should party
     private BlockPos jukebox;
-    private ItemStack record; // the record this entity is listening to
-    private boolean partying;
+    private ItemStack record = ItemStack.EMPTY; // the record this entity is listening to
 
     public GingerbreadManEntity(EntityType<GingerbreadManEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -208,6 +210,7 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
     }
 
     static final double sitMult = 0.7;
+    int jukeboxTicks = 0;
     @Override
     public void aiStep() {
         super.aiStep();
@@ -217,36 +220,56 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
             vehicle.setDeltaMovement(vehicle.getDeltaMovement().multiply(sitMult, 1, sitMult));
         }
 
-        // remove the jukebox if it goes out of range or is destroyed
-        if (this.jukebox == null) {
-            this.partying = false;
-            this.record = ItemStack.EMPTY;
-        } else {
-            BlockState state = this.level().getBlockState(this.jukebox);
-            if (!this.jukebox.closerToCenterThan(this.position(), 3.46D) || !state.is(Blocks.JUKEBOX)) {
-                this.jukebox = null;
-                this.record = ItemStack.EMPTY;
-            } else {
-                this.partying = state.getValue(JukeboxBlock.HAS_RECORD) && this.goodBeats();
-            }
+        if (!this.level().isClientSide() && jukeboxTicks++ == 20) {
+            jukeboxTicks = 0;
+            this.setRecordPlayingNearby();
         }
 
-        if (this.partying)
-            CreateConfectionery.LOGGER.info("WOOOOO");
+
+        if (this.partying())
+            CreateConfectionery.LOGGER.info("partying on {}", this.level().isClientSide ? "client" : "server");
     }
 
-    @Override
-    public void setRecordPlayingNearby(BlockPos jukebox, boolean shouldParty) {
-        this.jukebox = jukebox;
-        ServerboundJukeboxRecordRequest.sendRecordRequest(jukebox, this.getId());
+    // the one in LivingEntity is purely clientside. No good.
+    // checks if there's a jukebox playing music nearby, and sync the results with clients
+    public void setRecordPlayingNearby() {
+        Optional<BlockPos> closestJukebox = BlockPos.findClosestMatch(this.blockPosition(), 3, 3, pos -> this.level().getBlockState(pos).is(Blocks.JUKEBOX));
+        if (closestJukebox.isPresent() && this.level().getBlockState(closestJukebox.get()).getValue(JukeboxBlock.HAS_RECORD)) {
+            BlockEntity blockEntity = this.level().getBlockEntity(closestJukebox.get());
+            if (blockEntity instanceof JukeboxBlockEntity jukeboxBlockEntity) {
+                this.record = jukeboxBlockEntity.getFirstItem();
+            }
+            this.jukebox = closestJukebox.get();
+        }
+        else {
+            this.jukebox = null;
+            this.record = ItemStack.EMPTY;
+        }
+        ClientboundGingerbreadManData.broadcastGingerbreadManData(this);
+    }
+
+    public boolean partying() {
+        return this.jukebox != null && this.goodBeats();
+    }
+
+    public BlockPos getJukebox() {
+        return this.jukebox;
+    }
+
+    public void setJukebox(BlockPos pos) {
+        this.jukebox = pos;
+    }
+
+    public ItemStack getRecord() {
+        return this.record;
+    }
+
+    public void setRecord(ItemStack stack) {
+        this.record = stack;
     }
 
     private boolean goodBeats() {
-        return !this.record.is(BAD_DISCS);
-    }
-
-    public void setListeningTo(ItemStack item) {
-        this.record = item;
+        return !this.record.isEmpty() && !this.record.is(Items.AIR) && !this.record.is(BAD_DISCS);
     }
 
     @Override

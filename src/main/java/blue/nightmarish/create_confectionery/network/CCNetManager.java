@@ -2,8 +2,7 @@ package blue.nightmarish.create_confectionery.network;
 
 import blue.nightmarish.create_confectionery.CreateConfectionery;
 import blue.nightmarish.create_confectionery.network.clientbound.ClientboundCaramelParticleEvent;
-import blue.nightmarish.create_confectionery.network.clientbound.ClientboundJukeboxRecordItem;
-import blue.nightmarish.create_confectionery.network.serverbound.ServerboundJukeboxRecordRequest;
+import blue.nightmarish.create_confectionery.network.clientbound.ClientboundGingerbreadManData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -35,16 +34,10 @@ public class CCNetManager {
                 .consumerMainThread(ClientboundCaramelParticleEvent::handle)
                 .add();
 
-        INSTANCE.messageBuilder(ServerboundJukeboxRecordRequest.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(ServerboundJukeboxRecordRequest::new)
-                .encoder(ServerboundJukeboxRecordRequest::toBytes)
-                .consumerMainThread(ServerboundJukeboxRecordRequest::handle)
-                .add();
-
-        INSTANCE.messageBuilder(ClientboundJukeboxRecordItem.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(ClientboundJukeboxRecordItem::new)
-                .encoder(ClientboundJukeboxRecordItem::toBytes)
-                .consumerMainThread(ClientboundJukeboxRecordItem::handle)
+        INSTANCE.messageBuilder(ClientboundGingerbreadManData.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(ClientboundGingerbreadManData::new)
+                .encoder(ClientboundGingerbreadManData::toBytes)
+                .consumerMainThread(ClientboundGingerbreadManData::handle)
                 .add();
     }
 
