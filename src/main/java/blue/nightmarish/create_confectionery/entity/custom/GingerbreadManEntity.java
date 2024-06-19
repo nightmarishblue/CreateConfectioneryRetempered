@@ -2,19 +2,20 @@ package blue.nightmarish.create_confectionery.entity.custom;
 
 import blue.nightmarish.create_confectionery.CCUtils;
 import blue.nightmarish.create_confectionery.CreateConfectionery;
+import blue.nightmarish.create_confectionery.data.CCItemTagGenerator;
 import blue.nightmarish.create_confectionery.entity.Prankster;
 import blue.nightmarish.create_confectionery.entity.ai.ClimbOnHeadGoal;
 import blue.nightmarish.create_confectionery.entity.ai.EatCakeGoal;
+import blue.nightmarish.create_confectionery.network.serverbound.ServerboundJukeboxRecordRequest;
 import blue.nightmarish.create_confectionery.registry.CCItems;
 import blue.nightmarish.create_confectionery.registry.CCSounds;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -30,12 +31,14 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ThrownEgg;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.JukeboxBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -52,14 +55,20 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
     public static final ItemStack CONSUME_ITEM = new ItemStack(CCItems.GINGERBREAD.get());
     // the particles that come out when you take a bite of this mob
     public static final ItemStack EATEN_PARTICLES = new ItemStack(CCItems.GINGERBREAD_MAN.get());
-    public static final TagKey<Item> FOOD_ITEMS = ItemTags.create(new ResourceLocation(CreateConfectionery.MOD_ID, "gingerbread_man_foods"));
-    public static final TagKey<Item> TAME_ITEMS = ItemTags.create(new ResourceLocation(CreateConfectionery.MOD_ID, "gingerbread_man_tame_items"));
+    public static final TagKey<Item> FOOD_ITEMS = CCItemTagGenerator.GINGERBREAD_MAN_FOODS;
+    public static final TagKey<Item> BAD_DISCS = CCItemTagGenerator.BAD_DISCS;
+//    public static final TagKey<Item> TAME_ITEMS = ItemTags.create(new ResourceLocation(CreateConfectionery.MOD_ID, "gingerbread_man_tame_items"));
 //    public static final Set<FluidType> CAN_SWIM_IN = Set.of(AllFluids.CHOCOLATE.getType(), ForgeMod.MILK_TYPE.get(),
 //            CCFluidTypes.DARK_CHOCOLATE_TYPE.get());
     public static int MIN_PRANK_DELAY = 20 * 60 * 2;
 
     private int nextPrankTime; // the time to perform this mob's next prank
     private Prank nextPrankType;
+
+    // stats to check whether this guy should party
+    private BlockPos jukebox;
+    private ItemStack record; // the record this entity is listening to
+    private boolean partying;
 
     public GingerbreadManEntity(EntityType<GingerbreadManEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -202,10 +211,42 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
     @Override
     public void aiStep() {
         super.aiStep();
+        // slow down the entity we're sitting on
         Entity vehicle = this.getVehicle();
         if (vehicle != null && this.shouldPrank(Prank.CLIMB_HEAD)) {
             vehicle.setDeltaMovement(vehicle.getDeltaMovement().multiply(sitMult, 1, sitMult));
         }
+
+        // remove the jukebox if it goes out of range or is destroyed
+        if (this.jukebox == null) {
+            this.partying = false;
+            this.record = ItemStack.EMPTY;
+        } else {
+            BlockState state = this.level().getBlockState(this.jukebox);
+            if (!this.jukebox.closerToCenterThan(this.position(), 3.46D) || !state.is(Blocks.JUKEBOX)) {
+                this.jukebox = null;
+                this.record = ItemStack.EMPTY;
+            } else {
+                this.partying = state.getValue(JukeboxBlock.HAS_RECORD) && this.goodBeats();
+            }
+        }
+
+        if (this.partying)
+            CreateConfectionery.LOGGER.info("WOOOOO");
+    }
+
+    @Override
+    public void setRecordPlayingNearby(BlockPos jukebox, boolean shouldParty) {
+        this.jukebox = jukebox;
+        ServerboundJukeboxRecordRequest.sendRecordRequest(jukebox, this.getId());
+    }
+
+    private boolean goodBeats() {
+        return !this.record.is(BAD_DISCS);
+    }
+
+    public void setListeningTo(ItemStack item) {
+        this.record = item;
     }
 
     @Override
