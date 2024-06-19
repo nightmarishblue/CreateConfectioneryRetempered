@@ -3,16 +3,9 @@ package blue.nightmarish.create_confectionery;
 import blue.nightmarish.create_confectionery.network.CCNetManager;
 import blue.nightmarish.create_confectionery.registry.*;
 import com.mojang.logging.LogUtils;
-import com.simibubi.create.foundation.fluid.FluidHelper;
-import net.minecraft.data.tags.ItemTagsProvider;
-import net.minecraft.tags.ItemTags;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
@@ -48,8 +41,8 @@ public class CreateConfectionery
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-//        event.enqueueWork(() -> {
-//            CCNetManager.register();
-//        });
+        event.enqueueWork(() -> {
+            CCNetManager.register();
+        });
     }
 }
