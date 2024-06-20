@@ -285,6 +285,7 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         this.goalSelector.addGoal(3, new RangedAttackGoal(this, 1.25D, 20, 16F));
         this.goalSelector.addGoal(3, new EatCakeGoal(this));
         this.goalSelector.addGoal(3, new ClimbOnHeadGoal(this));
+        this.goalSelector.addGoal(3, new SwitchJukeboxGoal(this, CCItems.MUSIC_DISC_THE_BRIGHT_SIDE.get().getDefaultInstance()));
 
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new TemptGoal(this, 1.2D, Ingredient.of(FOOD_ITEMS), false));
