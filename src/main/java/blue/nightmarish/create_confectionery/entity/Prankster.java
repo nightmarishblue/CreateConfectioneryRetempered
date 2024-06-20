@@ -29,4 +29,9 @@ public interface Prankster {
 
     void resetPrankType();
     Prank getPrankType();
+
+
+    // TODO maybe put this stuff in a different interface?
+    BlockPos getJukebox();
+    boolean goodBeats();
 }
