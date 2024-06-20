@@ -1,6 +1,7 @@
 package blue.nightmarish.create_confectionery.entity.model;
 
 import blue.nightmarish.create_confectionery.CreateConfectionery;
+import blue.nightmarish.create_confectionery.entity.custom.GingerbreadManEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
@@ -10,9 +11,11 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 
-public class GingerbreadManModel<T extends Entity> extends EntityModel<T> {
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
+public class GingerbreadManModel extends EntityModel<GingerbreadManEntity> {
     public static final ModelLayerLocation GINGERBREAD_MAN_LAYER = new ModelLayerLocation(
             new ResourceLocation(CreateConfectionery.MOD_ID, "gingerbread_man_model"), "main");
     public final ModelPart head;
@@ -88,12 +91,12 @@ public class GingerbreadManModel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(GingerbreadManEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.head.yRot = netHeadYaw / 57.295776F;
         this.head.xRot = headPitch / 57.295776F;
-        this.left_leg.xRot = Mth.cos(limbSwing * 1F) * -1F * limbSwingAmount;
+        this.left_leg.xRot = Mth.cos(limbSwing) * -1F * limbSwingAmount;
         this.right_arm.xRot = Mth.cos(limbSwing * 0.6662F + 3.1415927F) * limbSwingAmount;
         this.left_arm.xRot = Mth.cos(limbSwing * 0.6662F) * limbSwingAmount;
-        this.right_leg.xRot = Mth.cos(limbSwing * 1F) * 1F * limbSwingAmount;
+        this.right_leg.xRot = Mth.cos(limbSwing) * 1F * limbSwingAmount;
     }
 }
