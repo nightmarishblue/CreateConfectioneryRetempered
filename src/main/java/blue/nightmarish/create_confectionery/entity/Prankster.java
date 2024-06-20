@@ -1,11 +1,13 @@
 package blue.nightmarish.create_confectionery.entity;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 
 public interface Prankster {
     enum Prank {
         THROW_EGG,
         EAT_CAKE,
+        SWITCH_JUKEBOX,
         CLIMB_HEAD;
 
         static final Prank[] values = values();
