@@ -269,7 +269,7 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
     }
 
     private boolean goodBeats() {
-        return !this.record.isEmpty() && !this.record.is(Items.AIR) && !this.record.is(BAD_DISCS);
+        return !this.record.isEmpty() && !this.record.is(BAD_DISCS);
     }
 
     @Override
