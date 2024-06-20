@@ -234,9 +234,9 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
     // checks if there's a jukebox playing music nearby, and sync the results with clients
     public void setRecordPlayingNearby() {
         Optional<BlockPos> closestJukebox = BlockPos.findClosestMatch(this.blockPosition(), 3, 3, pos -> this.level().getBlockState(pos).is(Blocks.JUKEBOX));
-        if (closestJukebox.isPresent() && this.level().getBlockState(closestJukebox.get()).getValue(JukeboxBlock.HAS_RECORD)) {
+        if (closestJukebox.isPresent()) {
             BlockEntity blockEntity = this.level().getBlockEntity(closestJukebox.get());
-            if (blockEntity instanceof JukeboxBlockEntity jukeboxBlockEntity) {
+            if (blockEntity instanceof JukeboxBlockEntity jukeboxBlockEntity && jukeboxBlockEntity.isRecordPlaying()) {
                 this.record = jukeboxBlockEntity.getFirstItem();
             }
             this.jukebox = closestJukebox.get();
