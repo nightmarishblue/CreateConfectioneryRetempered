@@ -237,6 +237,8 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
             BlockEntity blockEntity = this.level().getBlockEntity(closestJukebox.get());
             if (blockEntity instanceof JukeboxBlockEntity jukeboxBlockEntity && jukeboxBlockEntity.isRecordPlaying()) {
                 this.record = jukeboxBlockEntity.getFirstItem();
+            } else {
+                this.record = ItemStack.EMPTY;
             }
             this.jukebox = closestJukebox.get();
         }
@@ -244,7 +246,7 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
             this.jukebox = null;
             this.record = ItemStack.EMPTY;
         }
-        ClientboundGingerbreadManData.broadcastGingerbreadManData(this);
+        ClientboundGingerbreadManData.broadcastGingerbreadManData(this); // TODO perhaps only send this packet when stats change
     }
 
     public boolean partying() {
