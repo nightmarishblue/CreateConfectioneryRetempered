@@ -227,7 +227,7 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
 
 
         if (this.partying())
-            CreateConfectionery.LOGGER.info("partying on {}", this.level().isClientSide ? "client" : "server");
+            CreateConfectionery.LOGGER.debug("partying on {}", this.level().isClientSide ? "client" : "server");
     }
 
     // the one in LivingEntity is purely clientside. No good.
