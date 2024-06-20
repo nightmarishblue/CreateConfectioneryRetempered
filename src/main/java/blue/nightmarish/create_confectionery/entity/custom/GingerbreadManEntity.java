@@ -148,7 +148,6 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         super.ate();
         this.heal(1f);
         this.level().playSound(null, this.blockPosition(), SoundEvents.GENERIC_EAT, SoundSource.NEUTRAL, 0.5F, 1.5F);
-        this.resetPrankDuration();
     }
 
     @Override

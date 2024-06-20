@@ -111,6 +111,7 @@ public class EatCakeGoal extends PrankGoal {
         // stop if we can't grief
         if (!ForgeEventFactory.getMobGriefingEvent(this.level, this.mob())) {
             this.mob().ate();
+            this.mob().resetPrankDuration();
             return;
         }
 
@@ -122,13 +123,14 @@ public class EatCakeGoal extends PrankGoal {
         int i = state.getValue(BlockStateProperties.BITES);
         this.level.gameEvent(this.mob(), GameEvent.EAT, pos);
         this.level.destroyBlock(pos, false);
+        this.mob().ate();
         if (i < 6) {
             this.level.setBlock(pos, state.setValue(BlockStateProperties.BITES, i + 1), 1 | 2);
             if (this.mob().getRandom().nextInt(2) == 0) // if there's still cake, maybe nibble more...
-                this.mob().ate();
+                this.mob().resetPrankDuration();
         } else {
             this.level.gameEvent(this.mob(), GameEvent.BLOCK_DESTROY, pos);
-            this.mob().ate();
+            this.mob().resetPrankDuration();
         }
     }
 }
