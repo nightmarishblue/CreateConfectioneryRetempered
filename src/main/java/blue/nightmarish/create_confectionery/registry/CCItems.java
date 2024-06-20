@@ -9,7 +9,6 @@ import blue.nightmarish.create_confectionery.item.gingerbread.GingerbreadItem;
 import blue.nightmarish.create_confectionery.item.gingerbread.GingerbreadManItem;
 import blue.nightmarish.create_confectionery.item.hot_chocolate.HotChocolateItem;
 import blue.nightmarish.create_confectionery.item.hot_chocolate.PlainHotChocolateItem;
-import com.simibubi.create.content.processing.sequenced.SequencedAssemblyItem;
 import net.minecraft.world.item.*;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
@@ -101,7 +100,7 @@ public class CCItems {
             .register("candy_cane", () -> new CandyCaneItem(CCConstants.CANDY_CANE_EFFECTS));
     public static final RegistryObject<RecordItem> MUSIC_DISC_THE_BRIGHT_SIDE = ITEMS
             .register("music_disc_the_bright_side",
-                    () -> new RecordItem(2, CCSounds.THE_BRIGHT_SIDE, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 3220));
+                    () -> new RecordItem(2, CCSounds.THE_BRIGHT_SIDE, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 3160));
     public static final RegistryObject<Item> HONEY_CANDY = ITEMS
             .register("honey_candy", HoneyCandyItem::new);
 
