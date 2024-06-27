@@ -98,5 +98,36 @@ public class GingerbreadManModel extends EntityModel<GingerbreadManEntity> {
         this.right_arm.xRot = Mth.cos(limbSwing * 0.6662F + 3.1415927F) * limbSwingAmount;
         this.left_arm.xRot = Mth.cos(limbSwing * 0.6662F) * limbSwingAmount;
         this.right_leg.xRot = Mth.cos(limbSwing) * 1F * limbSwingAmount;
+
+        // it seems that the model's parts keep their parameters, so we have to reset stuff back to normal
+        if (entity.partying()) {
+            float cos = Mth.cos(entity.tickCount), sin = Mth.sin(entity.tickCount);
+            this.head.x = cos * 0.2F;
+            this.head.y = 15F + sin;
+
+            this.head.xRot = sin * 0.4F + 0.1F; // maybe remove the slight forward bias?
+
+            this.body.x = cos * 0.1F;
+            this.body.y = 24F + sin;
+            this.body.xRot = sin * 0.1F;
+
+            this.right_arm.x = -4F + cos;
+            this.right_arm.y = 16F + sin;
+
+            this.left_arm.x = 4F + cos;
+            this.left_arm.y = 16F + sin;
+        } else {
+            this.head.x = 0F;
+            this.head.y = 15F;
+
+            this.body.x = 0F;
+            this.body.y = 24F;
+
+            this.right_arm.x = -4F;
+            this.right_arm.y = 16F;
+
+            this.left_arm.x = 4F;
+            this.left_arm.y = 16F;
+        }
     }
 }
