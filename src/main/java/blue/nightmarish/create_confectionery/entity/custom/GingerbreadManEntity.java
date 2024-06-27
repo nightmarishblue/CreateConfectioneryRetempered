@@ -1,11 +1,11 @@
 package blue.nightmarish.create_confectionery.entity.custom;
 
 import blue.nightmarish.create_confectionery.CCUtils;
-import blue.nightmarish.create_confectionery.CreateConfectionery;
 import blue.nightmarish.create_confectionery.data.CCItemTagGenerator;
 import blue.nightmarish.create_confectionery.entity.Prankster;
 import blue.nightmarish.create_confectionery.entity.ai.ClimbOnHeadGoal;
 import blue.nightmarish.create_confectionery.entity.ai.EatCakeGoal;
+import blue.nightmarish.create_confectionery.entity.ai.SwitchJukeboxGoal;
 import blue.nightmarish.create_confectionery.network.clientbound.ClientboundGingerbreadManData;
 import blue.nightmarish.create_confectionery.registry.CCItems;
 import blue.nightmarish.create_confectionery.registry.CCSounds;
@@ -34,11 +34,9 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.JukeboxBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -63,8 +61,9 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
 //    public static final TagKey<Item> TAME_ITEMS = ItemTags.create(new ResourceLocation(CreateConfectionery.MOD_ID, "gingerbread_man_tame_items"));
 //    public static final Set<FluidType> CAN_SWIM_IN = Set.of(AllFluids.CHOCOLATE.getType(), ForgeMod.MILK_TYPE.get(),
 //            CCFluidTypes.DARK_CHOCOLATE_TYPE.get());
-    public static int MIN_PRANK_DELAY = 20 * 60 * 2;
 
+    // stats to track whether this guy should be mischievous
+    public static int MIN_PRANK_DELAY = 20 * 60 * 2;
     private int nextPrankTime; // the time to perform this mob's next prank
     private Prank nextPrankType;
 
@@ -206,6 +205,15 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
     @Override
     public double getMyRidingOffset() {
         return this.getEyeHeight() * 0.5D;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (this.level().isClientSide()) return;
+
+        if (this.tickCount - this.nextPrankTime > 2000) this.resetPrankDuration();
     }
 
     static final double sitMult = 0.7;
