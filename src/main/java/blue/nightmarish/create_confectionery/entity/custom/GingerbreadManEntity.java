@@ -223,14 +223,11 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
             jukeboxTicks = 0;
             this.setRecordPlayingNearby();
         }
-
-
-        if (this.partying())
-            CreateConfectionery.LOGGER.debug("partying on {}", this.level().isClientSide ? "client" : "server");
     }
 
     // the one in LivingEntity is purely clientside. No good.
     // checks if there's a jukebox playing music nearby, and sync the results with clients
+    // FIXME registers as dancing even when there is no music coming out of the box
     public void setRecordPlayingNearby() {
         Optional<BlockPos> closestJukebox = BlockPos.findClosestMatch(this.blockPosition(), 3, 3, pos -> this.level().getBlockState(pos).is(Blocks.JUKEBOX));
         if (closestJukebox.isPresent()) {
