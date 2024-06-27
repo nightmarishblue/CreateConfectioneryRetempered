@@ -329,15 +329,16 @@ public class GingerbreadManEntity extends AbstractGolem implements RangedAttackM
         return this.nextPrankType;
     }
 
-    public GingerbreadManDecay getEatenState() {
-        return GingerbreadManDecay.getDecay(this.getHealth() / this.getMaxHealth());
+    public Decay getEatenState() {
+        return Decay.getDecay(this.getHealth() / this.getMaxHealth());
     }
 
-    public enum GingerbreadManDecay {
+    public enum Decay {
         FULL, HEAD_CHIPPED, HEAD_MISSING, BODY_CHIPPED;
 
-        public static GingerbreadManDecay getDecay(float percent) {
-            GingerbreadManDecay[] values = GingerbreadManDecay.values();
+        private static final Decay[] values = Decay.values();
+
+        public static Decay getDecay(float percent) {
             int index = values.length - (Mth.lerpInt(percent, 1, values.length));
             return values[index];
         }
