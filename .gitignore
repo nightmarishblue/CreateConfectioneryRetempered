@@ -6,3 +6,6 @@ run/
 
 src/test/
 src/generated/resources/*
+
+# for legality
+src/main/resources/assets/create_confectionery/textures/
